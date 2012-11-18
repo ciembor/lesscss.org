@@ -1,4 +1,4 @@
-About
+O projekcie
 =====
 
-LESS was developed by [Alexis Sellier](http://cloudhead.io), more commonly known as [cloudhead](http://cloudhead.io).
+LESS został stworzony przez [Alexisa Selliera](http://cloudhead.io), powszechnie znanego jako [cloudhead](http://cloudhead.io).

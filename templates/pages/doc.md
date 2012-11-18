@@ -195,7 +195,7 @@ Jeżeli teraz wywołamy `.mixin` z jednym argumentem, otrzymamy pierwszą defini
 
 ### Strażnicy (guards)
 
-Strażnicy są przydatni, kiedy zamiast prostych wartości, czy arności, chcesz dopasować *wyrażenia*. Jeżeli miałeś styczność z programowaniem funkcyjnym, prawdopodobnie spotkałeś się już z nimi. 
+Strażnicy są przydatni, kiedy zamiast prostych wartości bądź arności, chcesz dopasować *wyrażenia*. Jeżeli miałeś styczność z programowaniem funkcyjnym, prawdopodobnie spotkałeś się już z nimi. 
 
 Starając się trzymać tak bardzo jak to możliwe deklaratywnej natury CSS, w LESS wykonywanie warunkowych działań odbywa się poprzez strzeżone domieszki (guarded mixins) zamiast bloków if/else, w stylu istniejącego w CSS3 @media.
 
@@ -240,12 +240,11 @@ Każda wartość inna niż `true` jest fałszem:
       .truth(40); // Will not match any of the above definitions.
     }
 
-Guards can be separated with a comma '`,`'--if any of the guards evaluates to true, it's
-considered as a match:
+Strażnicy mogą być oddzielani przecinkiem '`,`'--jeżeli którykolwiek ze strażników nie ewaluuje do wartości true, uznaje się, że pasuje:
 
     .mixin (@a) when (@a > 10), (@a < -10) { ... }
 
-Note that you can also compare arguments with each other, or with non-arguments:
+Zauważ, że możesz także porównywać argumenty między sobą, lub z innymi wartościami:
 
     @media: mobile;
 
@@ -255,12 +254,12 @@ Note that you can also compare arguments with each other, or with non-arguments:
     .max (@a, @b) when (@a > @b) { width: @a }
     .max (@a, @b) when (@a < @b) { width: @b }
 
-Lastly, if you want to match mixins based on value type, you can use the *is\** functions:
+W końcu, jeśli chcesz dopasować domieszki bazujące na typie wartości, możesz użyć funkcji *is\**:
 
     .mixin (@a, @b: 0) when (isnumber(@b)) { ... }
     .mixin (@a, @b: black) when (iscolor(@b)) { ... }
 
-Here are the basic type checking functions:
+Oto podstawowe funkcje sprawdzające typy:
 
 - `iscolor`
 - `isnumber`
@@ -268,25 +267,25 @@ Here are the basic type checking functions:
 - `iskeyword`
 - `isurl`
 
-If you want to check if a value, in addition to being a number, is in a specific unit, you may use one of:
+Jeżeli chcesz sprawdzić, czy wartość poza tym, że jest numeryczna, ma ponadto konkretną jednostkę, możesz użyć jednej z tych funkcji:
 
 - `ispixel`
 - `ispercentage`
 - `isem`
 
-Last but not least, you may use the **`and`** keyword to provide additional conditions inside a guard:
+W końcu możesz też użyć słowa kluczowego **`and`**, aby określić dodatkowe warunki wewnątrz strażnika:
 
     .mixin (@a) when (isnumber(@a)) and (@a > 0) { ... }
 
-And the **`not`** keyword to negate conditions:
+Oraz słowa kluczowego **`not`** do negowania warunków:
 
     .mixin (@b) when not (@b > 0) { ... }
 
-Nested rules
+Zagnieżdżone reguły
 ------------
 
-LESS gives you the ability to use *nesting* instead of, or in combination with cascading.
-Lets say we have the following CSS:
+LESS daje ci możliwość używania zagnieżdżeń zamiast kaskadowości, lub też w połączeniu z nią.
+Załóżmy, że mamy poniższy CSS:
 
     #header { color: black; }
     #header .navigation {
@@ -299,7 +298,7 @@ Lets say we have the following CSS:
       text-decoration: none;
     }
 
-In LESS, we can also write it this way:
+W LESS możemy również zapisać to w ten sposób:
 
     #header {
       color: black;
@@ -313,7 +312,7 @@ In LESS, we can also write it this way:
       }
     }
 
-Or this way:
+Lub w ten sposób:
 
     #header        { color: black;
       .navigation  { font-size: 12px }
@@ -322,12 +321,11 @@ Or this way:
       }
     }
 
-The resulting code is more concise, and mimics the structure of your `DOM tree`.
+W efekcie kod jest bardziej zwięzły i lepiej odzwierciedla strukturę `drzewa DOM`.
 
-Notice the `&` combinator--it's used when you want a nested selector to be concatenated to its parent selector, instead
-of acting as a descendant. This is especially important for pseudo-classes like `:hover` and `:focus`.
+Zauważ, że kombinator `&`--jest używany, kiedy chcesz aby zagnieżdżony selektor został dołączony do selektora jego rodzica, zamiast zachowywać się jak potomek. Jest to szczególnie przydatne w użyciu z pseudo-klasami takimi jak `:hover` czy `:focus`.
 
-For example:
+Na przykład:
 
     .bordered {
       &.float {
@@ -338,7 +336,7 @@ For example:
       }
     }
 
-Will output
+Zwróci:
 
     .bordered.float {
       float: left;
@@ -346,13 +344,14 @@ Will output
     .bordered .top {
       margin: 5px;
     }
-	
-Advanced Usage of &
+
+
+Zaawansowane zastosowanie &
 -------------------
 
-The & symbol can be used in selectors in order to reverse the ordering of the nesting and to multiply classes.
+Symbol & może być używany w selektorach do odwracania porządku zagnieżdżania i do kombinowania klas.
 
-For example:
+Na przykład:
 
     .child, .sibling {
 	    .parent & {
@@ -363,7 +362,7 @@ For example:
 		}
 	}
 	
-Will output
+Zwróci:
 
     .parent .child,
     .parent .sibling {
@@ -375,14 +374,14 @@ Will output
 	.sibling + .sibling {
 	    color: red;
 	}
-	
-You can also use & in mixins in order to reference nesting that is outside of your mixin.
 
-Operations
+Możesz też używać & w domieszkach, aby odnieść się do bloku na zewnątrz domieszki.
+
+Operacje
 ----------
 
-Any number, color or variable can be operated on. Operations should be performed
-within parentheses. Here are a couple of examples:
+Każdy numer, kolor czy zmienna mogą być operandami. Operacje powinny być wykoniwane wewnątrz nawiasów. 
+Poniżej kilka przykładów:
 
     @base: 5%;
     @filler: (@base * 2);
@@ -392,44 +391,43 @@ within parentheses. Here are a couple of examples:
     background-color: (@base-color + #111);
     height: (100% / 2 + @filler);
 
-The output is pretty much what you expect—LESS understands the difference between colors and units. If a unit is used in an operation, like in:
+Rezultat jest prawdopodobnie zgodny z twoją intuicją—LESS rozróżnia kolory i jednostki. Jeżeli jednostka jest użyta w operacji tak jak tutaj:
 
     @var: (1px + 5);
 
-LESS will use that unit for the final output—`6px` in this case.
+LESS użyje tej jednostki w wyjściowym CSS—w tym wypadku `6px`.
 
-Extra parentheses are also authorized in operations:
+Dodatkowe nawiasy również są dozwolone wewnątrz operacji:
 
     width: ((@var + 5) * 2);
 
-Color functions
+Funkcje kolorów
 ---------------
 
-LESS provides a variety of functions which transform colors. Colors are first converted to
-the *HSL* color-space, and then manipulated at the channel level:
+LESS oferuje szereg funkcji przekształcających kolory. Kolory są najpierw konwertowane do przestrzeni barw *HSL*, a następnie zmieniane na poziomie kanałów:
 
-    lighten(@color, 10%);    // return a color 10 percentage points *lighter* than @color
-    darken(@color, 10%);     // return a color 10 percentage points *darker* than @color
+    lighten(@color, 10%);    // zwraca kolor 10% jaśniejszy od @color
+    darken(@color, 10%);     // zwraca kolor 10% ciemniejszy od @color
 
-    saturate(@color, 10%);   // return a color 10 percentage points *more* saturated than @color
-    desaturate(@color, 10%); // return a color 10 percentage points *less* saturated than @color
+    saturate(@color, 10%);   // zwraca kolor o 10% bardziej nasycony niż @color
+    desaturate(@color, 10%); // zwraca kolor o 10% mniej nasycony niż @color
 
     fadein(@color, 10%);     
-	    // return a color 10 percentage points *less* transparent than @color
+	    // zwraca kolor o 10% mniej przezroczysty niż @color
     fadeout(@color, 10%);    
-	    // return a color 10 percentage points *more* transparent than @color
-    fade(@color, 50%);       // return @color with 50% transparency
+	    // zwraca kolor o 10% bardziej przezroczysty niż @color
+    fade(@color, 50%);       // zwraca kolor o przezroczystości 50%
 
-    spin(@color, 10);        // return a color with a 10 degree larger in hue than @color
-    spin(@color, -10);       // return a color with a 10 degree smaller hue than @color
+    spin(@color, 10);        // zwraca kolor o parametrze HUE większym o 10 stopni niż @color
+    spin(@color, -10);       // zwraca kolor o parametrze HUE mniejszym o 10 stopni niż @color
 
-    mix(@color1, @color2, @weight);  
-	    // return a mix of @color1 and @color2, default weight 50%
+    mix(@color1, @color2, @stosunek);  
+	    // zwraca rezultat zmieszania kolorów @color1 i @color2, domyślnie w stosunku 50%
     contrast(@color1, @darkcolor, @lightcolor); 
-	    // return @darkcolor if @color1 is >50% luma (i.e. is a light color), 
-		// otherwise return @lightcolor
+	    // zwróci @darkcolor jeżeli @color1 parametr jasności jest większy niż 50%
+		// w przeciwnym wypadku zwróci @lightcolor
 
-Using them is pretty straightforward:
+Używanie tych funkcji jest bardzo proste:
 
     @base: #f04615;
 
@@ -438,41 +436,41 @@ Using them is pretty straightforward:
       background-color: spin(lighten(@base, 25%), 8);
     }
 
-You can also extract color information:
+Możesz też uzyskać informacje o kolorach:
 
-    hue(@color);        // returns the `hue` channel of @color
-    saturation(@color); // returns the `saturation` channel of @color
-    lightness(@color);  // returns the 'lightness' channel of @color
-    red(@color);        // returns the 'red' channel of @color
-    green(@color);      // returns the 'green' channel of @color
-    blue(@color);       // returns the 'blue' channel of @color
-    alpha(@color);      // returns the 'alpha' channel of @color
-    luma(@color);       // returns the 'luma' value (perceptual brightness) of @color
+    hue(@color);        // zwraca wartość kanału `hue`
+    saturation(@color); // zwraca wartość kanału `saturation`
+    lightness(@color);  // zwraca wartość kanału 'lightness'
+    red(@color);        // zwraca wartość kanału 'red'
+    green(@color);      // zwraca wartość kanału 'green'
+    blue(@color);       // zwraca wartość kanału 'blue'
+    alpha(@color);      // zwraca wartość kanału 'alpha'
+    luma(@color);       // zwraca wartość 'luma'
 
-This is useful if you want to create a new color based on another color's channel, for example:
+Jest to przydatne, kiedy chcesz stworzyć nowy kolor, bazując na kanale innego koloru:
 
     @new: hsl(hue(@old), 45%, 90%);
 
-`@new` will have `@old`'s *hue*, and its own saturation and lightness. Colors are always returned as RGB values, so applying `spin` to a grey value will do nothing.
+`@new` będzie miało wartość *hue* koloru `@old` i będzie miał swoje własne nasycenie i jasność. Kolory są zawsze zwracane jako wartości RGB, więc wywoływanie funkcji `spin` na szarym kolorze nic nie zmieni.
 
-Math functions
+Funkcje matematyczne
 --------------
 
-LESS provides a couple of handy math functions you can use on number values:
+LESS oferuje kilka przydatnych funkcji matematycznych, których możesz używać na wartościach numerycznych:
 
-    round(1.67); // returns `2`
-    ceil(2.4);   // returns `3`
-    floor(2.6);  // returns `2`
+    round(1.67); // zwraca `2`
+    ceil(2.4);   // zwraca `3`
+    floor(2.6);  // zwraca `2`
 
-If you need to turn a value into a percentage, you can do so with the `percentage` function:
+Jeśli chcesz zmienić ułamek na procent, możesz użyć funkcji `percentage`:
 
-    percentage(0.5); // returns `50%`
+    percentage(0.5); // zwraca `50%`
 
-Namespaces
+Przestrzenie nazw
 ----------
 
-Sometimes, you may want to group your variables or mixins, for organizational purposes, or just to offer some encapsulation.
-You can do this pretty intuitively in LESS—say you want to bundle some mixins and variables under `#bundle`, for later re-use, or for distributing:
+Czasem możesz mieć potrzebę pogrupowania zmiennych i domieszek, z przyczyn organizacji kodu, albo po prostu, żeby dodać enkapsulację.
+Możesz zrobić to w dość intuicyjny sposób. Załóżmy, że chesz powiązać jakieś domieszki i wartości wewnątrz `#bundle`, aby następnie ich użyć:
 
     #bundle {
       .button () {
@@ -485,18 +483,18 @@ You can do this pretty intuitively in LESS—say you want to bundle some mixins 
       .citation { ... }
     }
 
-Now if we want to mixin the `.button` class in our `#header a`, we can do:
+Jeśli teraz chcesz wmieszać klasę `.button` do naszego `#header a`, możesz to zrobić tak:
 
     #header a {
       color: orange;
       #bundle > .button;
     }
 
-Scope
+Zasięg
 -----
 
-Scope in LESS is very similar to that of programming languages. Variables and mixins are first looked up locally,
-and if they aren't found, the compiler will look in the parent scope, and so on.
+Zasięg w LESS jest bardzo podobny do tego w językach programowania. Zmienne i domieszki są najpierws przeszukiwane lokalnie,
+a następnie, jeśli nie zostały znalezione, kompilator będzie ich szukał w bloku rodzica i tak dalej.
 
     @var: red;
 
@@ -511,39 +509,38 @@ and if they aren't found, the compiler will look in the parent scope, and so on.
       color: @var; // red
     }
 
-Comments
+Komentarze
 --------
 
-CSS-style comments are preserved by LESS:
+Komentarze w CSS są dostępne również w LESS:
 
-    /* Hello, I'm a CSS-style comment */
+    /* Hej, jestem komentarzem w stylu CSS */
     .class { color: black }
 
-Single-line comments are also valid in LESS, but they are 'silent',
-they don't show up in the compiled CSS output:
+Ponadto poprawne są również jednolinijkowe komentarze, jednak są 'ciche' (silent) i nie będą widoczne w wyjściowym kodzie CSS:
 
-    // Hi, I'm a silent comment, I won't show up in your CSS
+    // Cześć, jestem cichym komentarzem i nie będzie mnie w wyjściowym CSS
     .class { color: white }
 
-Importing
+Importowanie
 ---------
 
-You can import `.less` files, and all the variables and mixins in them will be made available to the main file.
-The `.less` extension is optional, so both of these are valid:
+Możesz importować pliki `.less` i wszystkie zmienne oraz domieszki będą dostępne w głównym pliku.
+Rozszerzenie `.less` nie jest konieczne, więc obie wersje są poprawne:
 
     @import "lib.less";
     @import "lib";
 
-If you want to import a CSS file, and don't want LESS to process it, just use the `.css` extension:
+Jeśli chcesz importować plik CSS i nie chcesz, żeby LESS go przetwarzał, wystarczy że użyjesz rozszeżenia `.css`:
 
     @import "lib.css";
 
-The directive will just be left as is, and end up in the CSS output.
+Dyrektywa pozostanie nienaruszona i znajdzie się w wyjściowym pliku CSS.
 
-String interpolation
+Interpolacja łańcuchów (string interpolation)
 --------------------
 
-Variables can be embeded inside strings in a similar way to ruby or PHP, with the `@{name}` construct:
+Zmienne mogą być używane wewnątrz łańcuchów w sposób podobny do Rubiego czy PHP, wewnątrz `@{nazwa}`:
 
     @base-url: "http://assets.fnord.com";
     background-image: url("@{base-url}/images/bg.png");
@@ -551,69 +548,66 @@ Variables can be embeded inside strings in a similar way to ruby or PHP, with th
 Escaping
 --------
 
-Sometimes you might need to output a CSS value which is either not valid CSS syntax,
-or uses proprietary syntax which LESS doesn't recognize.
+Może się zdażyć, że będziesz musiał skorzystać z wartości, która nie jest zgodna ze składnią CSS, lub składnią nierozpoznawaną przez LESS.
 
-To output such value, we place it inside a string prefixed with `~`, for example:
+Aby wypisać taką wartość, umieszczamy ją wewnątrz łańcucha poprzedzonego przez `~`:
 
     .class {
       filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";
     }
 
-This is called an "escaped value", which will result in:
+Po angielsku wartość taką nazywa się "escaped value", w rezultacie otrzymamy:
 
     .class {
       filter: ms:alwaysHasItsOwnSyntax.For.Stuff();
     }
 	
-Selector Interpolation
+Interpolacja selektorów (selector interpolation)
 ----------------------
 
-If you want to use less variables inside selectors, you can do this by referencing the variable using `@{selector}` as 
-in string interpolation. For example:
+Jeśli chcesz używać zmiennych less wewnątrz selektorów, możesz to zrobić poprzez odniesienie się do zmiennej za pomocą `@{selektor}`, tak samo jak przy interpolacji łańcuchów znaków. Na przykład:
 
     @name: blocked;
 	.@{name} {
 	    color: black;
 	}
 	
-will output
+zwróci:
 
     .blocked {
 	    color: black;
 	}
 	
-Note: prior to less 1.3.1 a `(~"@{name}")` type of selector was supported. Support for this will be removed in the near future.
+Uwaga: do LESS w wersji 1.3.1 wyrażenie `(~"@{nazwa}")` było dozwolone. Będzie ono jednak usunięte w niedalekiej przyszłości.
 
-JavaScript evaluation
+wykonywanie kodu JavaScript
 ---------------------
 
-JavaScript expressions can be evaluated as values inside .less files. We reccomend using caution with this feature
-as the less will not be compilable by ports and it makes the less harder to mantain. If possible, try to think of a
-function that can be added to achieve the same purpose and ask for it on github. We have plans to allow expanding the
-default functions available. However, if you still want to use JavaScript in .less, this is done by wrapping the expression
-with back-ticks:
+Wyrażenia JavaScript mogą być wywoływane tak jak wartości wewnątrz plików .less. Zalecamy ostrożność podczas korzystania z tej możliwości,
+ponieważ taki kod może nie być przenośny i trudniejszy w rozwijaniu. Jeżeli to możliwe, spróbuj pomyśleć o funkcji, która może być użyta
+w celu uzyskania tego efektu i zapytaj o nią w serwisie GitHub. Mamy w planach zezwolenie na rozszerzanie domyślnego zbioru funkcji.
+Jednak jeśli ciągle chcesz używać JavaScriptu wewnątrz .less, możesz to zrobić otaczając wyrażenie grawisami (back-ticks):
 
-    @var: `"hello".toUpperCase() + '!'`;
+    @var: `"cześć".toUpperCase() + '!'`;
 
-Becomes:
+Zostanie zamienione na:
 
-    @var: "HELLO!";
+    @var: "CZEŚĆ!";
 
-Note that you may also use interpolation and escaping as with strings:
+Możesz też używać interpolacji i "escapingu" tak jak w łańcuchach znaków:
 
-    @str: "hello";
+    @str: "cześć";
     @var: ~`"@{str}".toUpperCase() + '!'`;
 
-Becomes:
+Zostanie zamienione na:
 
-    @var: HELLO!;
+    @var: CZEŚĆ!;
 
-It is also possible to access the JavaScript environment:
+Możesz również odnieść się do zmiennych z środowiska JavaScript:
 
     @height: `document.body.clientHeight`;
 
-If you want to parse a JavaScript string as a hex color, you may use the `color` function:
+Jeśli chcesz użyć łańcucha znaków z JavaScript jako koloru w zapisie szesnastkowym, możesz skorzystać z funkcji `color`:
 
     @color: color(`window.colors.baseColor`);
     @darkcolor: darken(@color, 10%);
