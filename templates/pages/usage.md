@@ -1,58 +1,54 @@
-Client-side usage
+Użycie po stronie klienta
 =================
 
-Client-side is the easiest way to get started and good for developing your less. For production and espescially 
-if performance is important, we reccommend pre-compiling using node or one of the many third party tools.
+Interpretacja kodu w przeglądarce jest najprostszym sposobem na rozpoczęcie pracy z LESS i rozwijanie kodu w środowisku deweloperskim. W środowisku produkcyjnym, gdzie liczy się wydajność, zalecamy jednak wcześniejszą kompilację.
 
-Link your `.less` stylesheets with the `rel` set to "`stylesheet/less`":
+Załącz swój arkusz stylów `.less` z właściwością `rel` ustawioną na "`stylesheet/less`":
 
     <link rel="stylesheet/less" type="text/css" href="styles.less">
 
-Then download `less.js` from the top of the page, and include it in the `<head>` element of your page, like so:
+Następnie pobierz `less.js` z linku na początku strony i załącz go w elemencie `<head>` twojej strony, jak poniżej:
 
     <script src="less.js" type="text/javascript"></script>
 
-Make sure you include your stylesheets *before* the script.
+Upewnij się, że załączasz arkusze stylów *przed* skryptem.
 
-Watch mode
+Tryb obserwatora (watch mode)
 ----------
 
-*Watch mode* is a client-side feature which enables your styles to refresh automatically as they are changed.
+*Tryb obserwatora* sprawia, że twoje style są odświeżane automatycznie kiedy tylko są zmienione.
 
-To enable it, append '`#!watch`' to the browser URL, then refresh the page. Alternatively, you can
-run `less.watch()` from the console.
+Aby przejść do tego trybu, dodaj '`#!watch`' do adresu URL w przeglądarce, a następnie odśwież stronę. Inny sposób to wywołanie `less.watch()` z konsoli przeglądarki.
 
-Server-side usage
+Użycie po stronie serwera
 =================
 
-Installation
+Instalacja
 ------------
 
-The easiest way to install LESS on the server, is via [npm](http://github.com/isaacs/npm), the node package manager, as so:
+Najprostszym sposobem instalacji LESS na serwerze, jest skorzystanie z [npm](http://github.com/isaacs/npm), menadżera pakietów node:
 
     $ npm install -g less
 	
-Command-line usage
+Użycie z poziomu linii komend
 ------------------
 
-Once installed, you can invoke the compiler from the command-line, as such:
+Kiedy już zainstalujesz LESS, możesz uruchomić kompilator z linii komend:
 
     $ lessc styles.less
 
-This will output the compiled CSS to `stdout`, you may then redirect it to a file of your choice:
+Tak uruchomiony kompilator zwróci skompilowany CSS do `stdout`, możesz jednak przekierować wyjście do dowolnego pliku:
 
     $ lessc styles.less > styles.css
 
-To output minified CSS, simply pass the `-x` option. If you would like more involved minification,
-the [YUI CSS Compressor](http://developer.yahoo.com/yui/compressor/css.html) is also available with
-the `--yui-compress` option.
+Aby otrzymać zminimalizowany CSS, uruchom kompilator z opcją `-x`. Jeśli oczekujesz wyższego stopnia kompresji, możesz też skorzystać z [YUI CSS Compressor](http://developer.yahoo.com/yui/compressor/css.html) korzystając z opcji `--yui-compress`.
 
-To see all the command line options run lessc without parameters.
+Aby zobaczyć wszystkie dostępne opcje kompilatora, uruchom lessc bez parametrów.
 
-Usage in Code
+Użycie z poziomu kodu
 -------------
 
-You can invoke the compiler from node, as such:
+Możesz wywołać kompilator w środowisku node, jak poniżej:
 
     var less = require('less');
 
@@ -60,13 +56,13 @@ You can invoke the compiler from node, as such:
         console.log(css);
     });
 
-which will output
+co zwróci:
 
     .class {
       width: 2;
     }
 
-you may also manually invoke the parser and compiler:
+możesz również wywołać parser i kompilator ręcznie:
 
     var parser = new(less.Parser);
 
@@ -75,27 +71,27 @@ you may also manually invoke the parser and compiler:
         console.log(tree.toCSS());
     });
 
-Configuration
+Konfiguracja
 -------------
 
-You may pass some options to the compiler:
+Możesz przekazywać do kompilatora opcje:
 
     var parser = new(less.Parser)({
-        paths: ['.', './lib'], // Specify search paths for @import directives
-        filename: 'style.less' // Specify a filename, for better error messages
+        paths: ['.', './lib'], // Określa ścieżki przeszukiwania dyrektyw @import
+        filename: 'style.less' // Określa ścieżkę pliku, w celu lepszego raportowania błędów
     });
 
     parser.parse('.class { width: (1 + 1) }', function (e, tree) {
-        tree.toCSS({ compress: true }); // Minify CSS output
+        tree.toCSS({ compress: true }); // Kompresuje wyjściowy CSS
     });
 
 
 
-Third Party Tools
+Inne narzędzia
 =================
 
-There are a selection of tools available and these are documented in the github wiki.
+Poza oficjalnym kompilatorem, dostępne są też inne narzędzia, opisane na github wiki:
 
-<a href="https://github.com/cloudhead/less.js/wiki/Command-Line-use-of-LESS">Command Line Tools</a>
+<a href="https://github.com/cloudhead/less.js/wiki/Command-Line-use-of-LESS">Narzędzia konsolowe</a>
 
-<a href="https://github.com/cloudhead/less.js/wiki/GUI-compilers-that-use-LESS.js">GUI Tools</a>
+<a href="https://github.com/cloudhead/less.js/wiki/GUI-compilers-that-use-LESS.js">Narzędzia z GUI</a>

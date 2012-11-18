@@ -1,43 +1,42 @@
-As an extension to CSS, LESS is not only backwards compatible with CSS, but the extra features it adds use <em>existing</em> CSS syntax. This makes learning LESS a <em>breeze</em>, and if in doubt, lets you fall back to CSS.
+LESS będąc rozszerzeniem CSS jest z nim nie tylko wstecznie kompatybilny, ale też korzysta z jego istniejącej składni podczas opisu nowych struktur leksykalnych. To sprawia, że nauka LESS jest prosta i jeśli będziesz miał wątpliwości, pozwala ci powrócić do CSS.
 
-Variables
+Zmienne
 ---------
 
-These are pretty self-explanatory:
+Poniższy kod jest dość oczywisty:
 
     @nice-blue: #5B83AD;
     @light-blue: (@nice-blue + #111);
 
     #header { color: @light-blue; }
 
-Outputs:
+Zostanie on przekonwertowany na:
 
     #header { color: #6c94be; }
 
-It is also possible to define variables with a variable name:
+Istnieje również możliwość definiowania zmiennych ze zmienną nazwą:
 
     @fnord: "I am fnord.";
     @var: 'fnord';
     content: @@var;
 
-Which compiles to:
+Co zostanie skompilowane do:
 
     content: "I am fnord.";
 
-Note that variables in LESS are actually 'constants' in that they can only be defined once.
+Zauważ, że zmienne w LESS są tak właściwie "stałymi", ponieważ mogą być zdefiniowane tylko raz.
 
-Mixins
+Domieszki (mixins)
 ------
 
-In LESS, it is possible to include a bunch of properties from one ruleset into another ruleset. So say we have the following class:
+W LESS istnieje możliwość załączenia kilku właściwości z jednego zbioru reguł do innego. Załóżmy, że mamy taką klasę:
 
     .bordered {
       border-top: dotted 1px black;
       border-bottom: solid 2px black;
     }
 
-And we want to use these properties inside other rulesets. Well, we just have to drop in the name of
-the class in any ruleset we want to include its properties, like so:
+I chcemy użyć tych właściwości wewnątrz innego zbioru reguł. Jedyne co musimy zrobić, to dodać nazwę klasy w dowolnym innym zbiorze reguł, jak poniżej:
 
     #menu a {
       color: #111;
@@ -48,7 +47,7 @@ the class in any ruleset we want to include its properties, like so:
       .bordered;
     }
 
-The properties of the `.bordered` class will now appear in both `#menu a` and `.post a`:
+Właściwości klasy `.bordered` będą teraz należeć również do `#menu a` oraz `.post a`:
 
     #menu a {
       color: #111;
@@ -61,12 +60,12 @@ The properties of the `.bordered` class will now appear in both `#menu a` and `.
       border-bottom: solid 2px black;
     }
 
-Any CSS *class* or *id* ruleset can be mixed-in that way.
+Dowolny zbiór reguł *klasy* czy *id* może wyć wmieszany w ten sposób.
 
-Parametric Mixins
+Parametryczne domieszki (parametric mixins)
 -----------------
 
-LESS has a special type of ruleset which can be mixed in like classes, but accepts parameters. Here's the canonical example:
+LESS ma specjalny typ zbioru reguł, który może być wmieszany tak jak klasy, ale przyjmując parametry. Tutaj jest wzorcowy przykład:
 
     .border-radius (@radius) {
       border-radius: @radius;
@@ -74,7 +73,7 @@ LESS has a special type of ruleset which can be mixed in like classes, but accep
       -webkit-border-radius: @radius;
     }
 
-And here's how we can mix it into various rulesets:
+A tutaj jego użycie w różnych zbiorach reguł.
 
     #header {
       .border-radius(4px);
@@ -83,7 +82,7 @@ And here's how we can mix it into various rulesets:
       .border-radius(6px);
     }
 
-Parametric mixins can also have default values for their parameters:
+Parametryczne domieszki mogą również posiadać domyślne wartości argumentów:
 
     .border-radius (@radius: 5px) {
       border-radius: @radius;
@@ -91,16 +90,15 @@ Parametric mixins can also have default values for their parameters:
       -webkit-border-radius: @radius;
     }
 
-We can invoke it like this now:
+Teraz możemy użyć jej w ten sposób:
 
     #header {
       .border-radius;
     }
 
-And it will include a 5px border-radius.
+I `#header` będzie posiadał 5px border-radius.
 
-You can also use parametric mixins which don't take parameters. This is useful if you want to hide the ruleset from the CSS output,
-but want to include its properties in other rulesets:
+Możesz też używać parametrycznych domieszek, które nie przyjmują parametrów. Mogą być przydatne jeśli chcesz, aby zbiór reguł nie został dołączony do wyjściowego CSS, ale jego własności były załączone do innych zbiorów reguł:
 
     .wrap () {
       text-wrap: wrap;
@@ -111,7 +109,7 @@ but want to include its properties in other rulesets:
 
     pre { .wrap }
 
-Which would output:
+Co zostanie skompilowane do:
 
     pre {
       text-wrap: wrap;
@@ -120,10 +118,9 @@ Which would output:
       word-wrap: break-word;
     }
 
-### The `@arguments` variable
+### Zmienna `@arguments`
 
-`@arguments` has a special meaning inside mixins, it contains all the arguments passed, when the mixin was called. This is useful
-if you don't want to deal with individual parameters:
+`@arguments` ma specjalne znaczenie wewnątrz domieszek, zawiera wszystkie przekazane argumenty, podczas wywołania domieszki. Jest to użyteczne, jeśli nie musisz operować na poszczególnych zmiennych:
 
     .box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
       box-shadow: @arguments;
@@ -132,17 +129,15 @@ if you don't want to deal with individual parameters:
     }
     .box-shadow(2px, 5px);
 
-Which results in:
+Co w efekcie da:
 
       box-shadow: 2px 5px 1px #000;
       -moz-box-shadow: 2px 5px 1px #000;
       -webkit-box-shadow: 2px 5px 1px #000;
 
-## Pattern-matching and Guard expressions
+## Dopasowania wzorców (pattern-matching) i strażnicy (guard expressions)
 
-Sometimes, you may want to change the behaviour of a mixin,
-based on the parameters you pass to it. Let's start with something
-basic:
+Czasami możesz chcieć zmienić zachowanie domieszki w oparciu o parametry, które do niej przekazujesz. Zacznijmy od czegoś prostego:
 
     .mixin (@s, @color) { ... }
 
@@ -150,8 +145,7 @@ basic:
       .mixin(@switch, #888);
     }
 
-Now let's say we want `.mixin` to behave differently, based on the value of `@switch`,
-we could define `.mixin` as such:
+Teraz załóżmy, że chcemy aby `.mixin` zachowywał się różnie w zależności od wartości `@switch`. Możemy zdefiniować `.mixin` w następująco:
 
     .mixin (dark, @color) {
       color: darken(@color, 10%);
@@ -163,7 +157,7 @@ we could define `.mixin` as such:
       display: block;
     }
 
-Now, if we run:
+Jeśli go teraz uruchomimy:
 
     @switch: light;
 
@@ -171,26 +165,24 @@ Now, if we run:
       .mixin(@switch, #888);
     }
 
-We will get the following CSS:
+Otrzymamy poniższy CSS:
 
     .class {
       color: #a2a2a2;
       display: block;
     }
 
-Where the color passed to `.mixin` was lightened. If the value of `@switch` was `dark`,
-the result would be a darker color.
+Gdzie kolor przekazany do `.mixin` został rozjaśniony. Jeżeli wartość `@switch` wynosiłaby `dark`, w efektcie otrzymalibyśmy ciemniejszy kolor.
 
-Here's what happened:
+Oto wyjaśnienie tego, co się stało:
 
-- The first mixin definition didn't match because it expected `dark` as the first argument.
-- The second mixin definition matched, because it expected `light`.
-- The third mixin definition matched because it expected any value.
+- pierwsza definicja domieszki nie została dopasowana, ponieważ oczekiwana była wartość `dark` jako pierwszy argument,
+- druga definicja domieszki pasowała, ponieważ oczekiwaną była wartość `light`,
+- trzecia definicja domieszki pasowała, ponieważ oczekiwana była dowolna wartość.
 
-Only mixin definitions which matched were used. Variables match and bind to any value.
-Anything other than a variable matches only with a value equal to itself.
+Zostały użyte tylko te definicje, które pasowały. Zmienne pasują i wiążą do dowolnej wartości. Wszystko inne niż zmienna pasuje tylko do takiej samej wartości.
 
-We can also match on arity, here's an example:
+Możemy również dopasowywać poprzez arność, tutaj jest przykład:
 
     .mixin (@a) {
       color: @a;
@@ -199,19 +191,15 @@ We can also match on arity, here's an example:
       color: fade(@a, @b);
     }
 
-Now if we call `.mixin` with a single argument, we will get the output of the first definition,
-but if we call it with *two* arguments, we will get the second definition, namely `@a` faded to `@b`.
+Jeżeli teraz wywołamy `.mixin` z jednym argumentem, otrzymamy pierwszą definicję, ale jeśli wywołamy go z dwoma argumentami, otrzymamy drugą definicję, mianowicie `@a` przechodzący w `@b`.
 
-### Guards
+### Strażnicy (guards)
 
-Guards are useful when you want to match on *expressions*, as opposed to simple values or arity. If you are
-familiar with functional programming, you have probably encountered them already.
+Strażnicy są przydatni, kiedy zamiast prostych wartości, czy arności, chcesz dopasować *wyrażenia*. Jeżeli miałeś styczność z programowaniem funkcyjnym, prawdopodobnie spotkałeś się już z nimi. 
 
-In trying to stay as close as possible to the declarative nature of CSS, LESS has opted to implement
-conditional execution via **guarded mixins** instead of if/else statements, in the vein of `@media`
-query feature specifications.
+Starając się trzymać tak bardzo jak to możliwe deklaratywnej natury CSS, w LESS wykonywanie warunkowych działań odbywa się poprzez strzeżone domieszki (guarded mixins) zamiast bloków if/else, w stylu istniejącego w CSS3 @media.
 
-Let's start with an example:
+Zacznijmy od przykładu
 
     .mixin (@a) when (lightness(@a) >= 50%) {
       background-color: black;
@@ -223,14 +211,13 @@ Let's start with an example:
       color: @a;
     }
 
-The key is the **`when`** keyword, which introduces a guard sequence (here with only one guard). Now if we run the following
-code:
+Kluczowym jest słowo **`when`**, które rozpoczyna sekwencję strażnika (w tym przykładzie jest tylko jeden strażnik. Jeśli teraz uruchomimy następujący kod:
 
     .class1 { .mixin(#ddd) }
     .class2 { .mixin(#555) }
 
 
-Here's what we'll get:
+Otrzymamy:
 
     .class1 {
       background-color: black;
@@ -241,13 +228,13 @@ Here's what we'll get:
       color: #555;
     }
 
-The full list of comparison operators usable in guards are: **`> >= = =< <`**. Additionally, the keyword `true`
-is the only truthy value, making these two mixins equivalent:
+Pełna lista operatorów porównania używanych w strażnikach to: **`> >= = =< <`++. Dodatkowo słowo kluczowe `true`
+jest jedyną prawdziwą wartością, sprawiającą, że te dwie domieszki są równoważne z:
 
     .truth (@a) when (@a) { ... }
     .truth (@a) when (@a = true) { ... }
 
-Any value other than the keyword `true` is falsy:
+Każda wartość inna niż `true` jest fałszem:
 
     .class {
       .truth(40); // Will not match any of the above definitions.

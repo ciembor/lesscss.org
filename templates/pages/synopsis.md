@@ -1,8 +1,7 @@
-Variables
+Zmienne
 ---------
 
-Variables allow you to specify widely used values in a single place, and then re-use them throughout the style sheet,
-making global changes as easy as changing one line of code.
+Zmienne pozwalają na zdefiniowanie wartości w jednym miejscu, a następnie na ich ponowne wykorzystanie w obrębie arkusza stylów, co pozwala na dokonywanie globalnych zmian poprzez zmianę jednej linijki kodu.
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -18,7 +17,7 @@ h2 {
   color: @color;
 }</code></pre>
   </td><td>
-  <pre class="css-output"><code>/* Compiled CSS */
+  <pre class="css-output"><code>/* Skompilowany CSS */
 
 #header {
   color: #4D926F;
@@ -29,13 +28,10 @@ h2 {
   </tr>
 </table>
 
-Mixins
+Domieszki (Mixins)
 ------
 
-Mixins allow you to embed all the properties of a class into another class by
-simply including the class name as one of its properties. It's just like variables,
-but for whole classes. Mixins can also behave like functions, and take arguments,
-as seen in the example below.
+Dziedziczenie przez wmieszanie pozwalaja na zawarcie wszystkich właściwości jednej klasy do innej klasy, przez załączenie nazwy klasy jako jednej z właściwości. Działa podobnie do zmiennych, przy czym dotyczy całych klas. Domieszki mogą się ponadto zachowywać jak funkcje i pobierać argumenty, jak na poniższym przykładzie.
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -57,7 +53,7 @@ as seen in the example below.
 }</code></pre></td>
 
 <td>
-  <pre class="css-output"><code>/* Compiled CSS */
+  <pre class="css-output"><code>/* Skompilowany CSS */
 
 #header {
   -webkit-border-radius: 5px;
@@ -76,12 +72,10 @@ as seen in the example below.
   </td></tr>
 </table>
 
-Nested Rules
+Zagnieżdżone reguły (nested rules)
 ------------
 
-Rather than constructing long selector names to specify inheritance,
-in Less you can simply nest selectors inside other selectors.
-This makes inheritance clear and style sheets shorter.
+Zamiast tworzyć długie nazwy selektorów w celu określenia dziedziczenia, w less można po prostu zagnieżdżać jedne selektory wewnątrz innych. Dzięki temu dziedziczenie jest bardziej przejrzyste, a arkusze stylów krótsze.
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -103,7 +97,7 @@ This makes inheritance clear and style sheets shorter.
 </code></pre></td>
 
 <td>
-  <pre class="css-output"><code>/* Compiled CSS */
+  <pre class="css-output"><code>/* Skompilowany CSS */
 
 #header h1 {
   font-size: 26px;
@@ -123,15 +117,10 @@ This makes inheritance clear and style sheets shorter.
   </td></tr>
 </table>
 
-Functions & Operations
+Funkcje i operacje
 ----------------------
 
-Are some elements in your style sheet proportional to other elements?
-Operations let you add, subtract, divide and multiply property values and colors,
-giving you the power to create complex relationships between properties. Operations
-should only be performed within parentheses in order to ensure compatibility with CSS.
-Functions map one-to-one with JavaScript code, allowing you to manipulate values however
-you want.
+Czy niektóre z elementów w twoim arkuszu stylów są proporcjonalne do innych? Operacje pozwalają na dodawanie, odejmowanie, dzielenie i mnożenie wartości właściwości oraz kolorów, dając możliwość tworzenia złożonych zależności między właściwościami. Operacje nie powinny jednak być wykonywane wewnątrz nawiasów, aby zapewnić zgodność z CSS. Funkcje rz ?????????????????????????????????????????
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -155,7 +144,7 @@ you want.
 </code></pre></td>
 
 <td>
-  <pre class="css-output"><code>/* Compiled CSS */
+  <pre class="css-output"><code>/* Skompilowany CSS */
 
 #header {
   color: #333;
