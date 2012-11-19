@@ -1,0 +1,1113 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet/less" type="text/css" href="/less/main.less">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <script src="/js/less.js" type="text/javascript"></script>
+    <link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+    <link rel="alternate" type="application/atom+xml" title="lesscss.org - feed" href="/index.xml" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>LESS &laquo; Dynamiczny język arkuszy stylów</title>
+    <script type="text/javascript">
+      (function () {
+        if (/Microsoft/.test(navigator.appName)) { return }
+
+        window.onload = function () {
+          var headers = document.querySelectorAll('#docs h2, #guide h1');
+          var menu = document.getElementById('menu');
+          var init = menu.offsetTop;
+          var docked;
+
+          for (var i = 0; i < headers.length; i++) {
+            headers[i].id = '-' + headers[i].innerHTML.toLowerCase().replace(/ /g, '-');
+          }
+
+          window.onscroll = function () {
+            if (!docked && (menu.offsetTop - scrollTop() < 0)) {
+              menu.style.top = 0;
+              menu.style.position = 'fixed';
+              menu.className = 'docked';
+              docked = true;
+            } else if (docked && scrollTop() <= init) {
+              menu.style.position = 'absolute';
+              menu.style.top = init + 'px';
+              menu.className = menu.className.replace('docked', '');
+              docked = false;
+            }
+          };
+
+          (function () {
+            var link     = document.getElementById('guide-link'),
+                menu     = document.getElementById('menu'),
+                dropdown = document.getElementById('dropdown');
+
+            link.onmouseover = function () {
+              link.className = 'dark-red';
+              dropdown.style.display = 'block';
+            };
+            link.onmouseout = function (e) {
+              if (e.relatedTarget === dropdown) { return }
+              link.className = link.className.replace('dark-red', '');
+              hide ();
+            };
+            dropdown.onmouseout = function (e) {
+              var t = e.relatedTarget;
+
+              if (e.target == link) { return }
+
+              while (t !== document.body) {
+                if (t == dropdown) { return }
+                else               { t = t.parentNode }
+              } 
+              link.className = link.className.replace('dark-red', '');
+              hide ();
+            };
+
+            function hide() { dropdown.style.display = 'none' }
+          })();
+        };
+
+        function scrollTop() {
+          return document.body.scrollTop || document.documentElement.scrollTop;
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <section>
+      <header id="main">
+  <div class="content">
+    <section id="intro">
+      <div id="logo"></div>
+      <h2><span>Dynamiczne</span> arkusze stylów.</h2>
+      <h3>
+        LESS rozszerza CSS o elementy dynamicznych języków, takie jak <span>zmienne</span>, 
+        <span>domieszki</span> (mixins), <span>operacje</span> i <span>funkcje</span>.
+        LESS działa zarówno <span>w przeglądarkach</span> (Chrome, Safari, Firefox) jak i po stronie serwera, 
+        w środowiskach <span>Node.js</span> i <span>Rhino</span>.
+      </h3>
+      <a id="download" href="http://cloud.github.com/downloads/cloudhead/less.js/less-1.3.1.min.js">
+        <img src="/images/download-button.png" /></a><div id="download-info">version <code>1.3.1</code></div>
+    </section>
+
+    <section id="example">
+    <p>Napisz kod LESS</p>
+
+<pre><code>@base: #f938ab;
+
+.box-shadow(@style, @c) when (iscolor(@c)) {
+  box-shadow:         @style @c;
+  -webkit-box-shadow: @style @c;
+  -moz-box-shadow:    @style @c;
+}
+.box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
+  .box-shadow(@style, rgba(0, 0, 0, @alpha));
+}
+.box { 
+  color: saturate(@base, 5%);
+  border-color: lighten(@base, 30%);
+  div { .box-shadow(0 0 5px, 30%) }
+}
+</code></pre>
+
+<p>Załącz <code>less.js</code> wraz z twoimi stylami</p>
+
+<pre><code>&lt;link rel="stylesheet/less" type="text/css" href="styles.less"&gt;
+&lt;script src="less.js" type="text/javascript"&gt;&lt;/script&gt;
+</code></pre>
+
+    </section>
+  </div>
+  <div style="clear: both"></div>
+</header>
+
+<section id="menu">
+  <div class="content">
+    <nav>
+      <a href="#synopsis">Przegląd</a>
+      <a href="#usage">Użycie</a>
+      <a href="#docs" id="guide-link">Język</a>
+      <a href="http://github.com/cloudhead/less.js">Kod źródłowy</a>
+      <a href="#about">O projekcie</a>
+    </nav>
+    <a href="https://twitter.com/cloudhead" class="twitter-follow-button" data-show-screen-name="false" data-width="80px" data-show-count="false" data-lang="en">Follow on twitter</a>
+    <div id="dropdown">
+      <ul>
+        <li><a href="#-zmienne">Zmienne</a></li>
+        <li><a href="#-domieszki-(mixins)">Domieszki</a></li>
+        <li><a href="#-parametryczne-domieszki-(parametric-mixins)">Parametryczne domieszki</a></li>
+        <li><a href="#-dopasowania-wzorców-(pattern-matching)-i-strażnicy-(guard-expressions)">Dopasowania wzorców</a></li>
+        <li><a href="#-zagnieżdżone-reguły-(nested-rules)">Zagnieżdżone reguły</a></li>
+        <li><a href="#-operacje">Operacje</a></li>
+        <li><a href="#-funkcje-kolorów">Funkcje kolorów</a></li>
+        <li><a href="#-przestrzenie-nazw">Przestrzenie nazw</a></li>
+        <li><a href="#-zasięg">Zasięg</a></li>
+        <li><a href="#-komentarze">Komentarze</a></li>
+        <li><a href="#-importowanie">Importowanie</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="synopsis" class="page">
+  <div class="content">
+    <h2>Zmienne</h2>
+
+<p>Zmienne pozwalają na zdefiniowanie wartości w jednym miejscu, a następnie na ich ponowne wykorzystanie w obrębie arkusza stylów. Pozwala to na dokonywanie globalnych zmian, poprzez zmianę jednej linijki kodu.</p>
+
+<table class="code-example" cellpadding="0">
+  <tr><td>
+  <pre class="less-example">
+  <code>// LESS
+
+@color: #4D926F;
+
+#header {
+  color: @color;
+}
+h2 {
+  color: @color;
+}</code></pre>
+  </td><td>
+  <pre class="css-output"><code>/* Skompilowany CSS */
+
+#header {
+  color: #4D926F;
+}
+h2 {
+  color: #4D926F;
+}</code></pre></td>
+  </tr>
+</table>
+
+
+<h2>Domieszki (mixins)</h2>
+
+<p>Dziedziczenie przez wmieszanie pozwala na zawarcie wszystkich właściwości jednej klasy w innej klasie, przez załączenie nazwy klasy jako jednej z właściwości. Działa podobnie do zmiennych, przy czym dotyczy całych klas. Domieszki mogą się ponadto zachowywać jak funkcje i pobierać argumenty, jak na poniższym przykładzie.</p>
+
+<table class="code-example" cellpadding="0">
+  <tr><td>
+  <pre class="less-example"><code>// LESS
+
+.rounded-corners (@radius: 5px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
+}
+
+#header {
+  .rounded-corners;
+}
+#footer {
+  .rounded-corners(10px);
+}</code></pre></td>
+
+<td>
+  <pre class="css-output"><code>/* Skompilowany CSS */
+
+#header {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+#footer {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+}</code></pre>
+  </td></tr>
+</table>
+
+
+<h2>Zagnieżdżone reguły (nested rules)</h2>
+
+<p>Zamiast tworzyć długie nazwy selektorów, w celu określenia dziedziczenia, w LESS można po prostu zagnieżdżać jedne selektory wewnątrz innych. Dzięki temu dziedziczenie jest bardziej przejrzyste, a arkusze stylów krótsze.</p>
+
+<table class="code-example" cellpadding="0">
+  <tr><td>
+  <pre class="less-example">
+<code>// LESS
+
+#header {
+  h1 {
+    font-size: 26px;
+    font-weight: bold;
+  }
+  p { font-size: 12px;
+    a { text-decoration: none;
+      &:hover { border-width: 1px }
+    }
+  }
+}
+
+</code></pre></td>
+
+<td>
+  <pre class="css-output"><code>/* Skompilowany CSS */
+
+#header h1 {
+  font-size: 26px;
+  font-weight: bold;
+}
+#header p {
+  font-size: 12px;
+}
+#header p a {
+  text-decoration: none;
+}
+#header p a:hover {
+  border-width: 1px;
+}
+
+</code></pre>
+  </td></tr>
+</table>
+
+
+<h2>Funkcje i operacje</h2>
+
+<p>Czy niektóre z elementów w twoim arkuszu stylów są proporcjonalne do innych? Operacje pozwalają na dodawanie, odejmowanie, dzielenie i mnożenie wartości właściwości oraz kolorów, dając możliwość tworzenia złożonych zależności między właściwościami. Operacje powinny jednak być wykonywane wewnątrz nawiasów, aby zapewnić zgodność z CSS.</p>
+
+<table class="code-example" cellpadding="0">
+  <tr><td>
+  <pre class="less-example">
+<code>// LESS
+
+@the-border: 1px;
+@base-color: #111;
+@red:        #842210;
+
+#header {
+  color: (@base-color * 3);
+  border-left: @the-border;
+  border-right: (@the-border * 2);
+}
+#footer {
+  color: (@base-color + #003300);
+  border-color: desaturate(@red, 10%);
+}
+
+</code></pre></td>
+
+<td>
+  <pre class="css-output"><code>/* Skompilowany CSS */
+
+#header {
+  color: #333;
+  border-left: 1px;
+  border-right: 2px;
+}
+#footer {
+  color: #114411;
+  border-color: #7d2717;
+}
+
+</code></pre>
+  </td></tr>
+</table>
+
+
+  </div>
+</section>
+
+<section id="usage" class="page">
+  <div class="content">
+    <h1>Użycie po stronie klienta</h1>
+
+<p>Interpretacja kodu w przeglądarce jest najprostszym sposobem na rozpoczęcie pracy z LESS i rozwijanie kodu w środowisku deweloperskim. W środowisku produkcyjnym, gdzie liczy się wydajność, zalecamy jednak wcześniejszą kompilację.</p>
+
+<p>Załącz swój arkusz stylów <code>.less</code> z właściwością <code>rel</code> ustawioną na &ldquo;<code>stylesheet/less</code>&rdquo;:</p>
+
+<pre><code>&lt;link rel="stylesheet/less" type="text/css" href="styles.less"&gt;
+</code></pre>
+
+<p>Następnie pobierz <code>less.js</code> z linku na początku strony i załącz go w elemencie <code>&lt;head&gt;</code> twojej strony, jak poniżej:</p>
+
+<pre><code>&lt;script src="less.js" type="text/javascript"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>Upewnij się, że załączasz arkusze stylów <em>przed</em> skryptem.</p>
+
+<h2>Tryb obserwatora (watch mode)</h2>
+
+<p><em>Tryb obserwatora</em> sprawia, że twoje style są odświeżane automatycznie podczas każdej zmiany.</p>
+
+<p>Aby przejść do tego trybu, dodaj &lsquo;<code>#!watch</code>&rsquo; do adresu URL w przeglądarce, a następnie odśwież stronę. Inny sposób to wywołanie <code>less.watch()</code> z konsoli przeglądarki.</p>
+
+<h1>Użycie po stronie serwera</h1>
+
+<h2>Instalacja</h2>
+
+<p>Najprostszym sposobem instalacji LESS na serwerze jest skorzystanie z <a href="http://github.com/isaacs/npm">npm</a>, menadżera pakietów node:</p>
+
+<pre><code>$ npm install -g less
+</code></pre>
+
+<h2>Użycie z poziomu linii komend</h2>
+
+<p>Kiedy już zainstalujesz LESS, możesz uruchomić kompilator z linii komend:</p>
+
+<pre><code>$ lessc styles.less
+</code></pre>
+
+<p>Tak uruchomiony kompilator zwróci skompilowany CSS do <code>stdout</code>, możesz jednak przekierować wyjście do dowolnego pliku:</p>
+
+<pre><code>$ lessc styles.less &gt; styles.css
+</code></pre>
+
+<p>Aby otrzymać zminimalizowany CSS, uruchom kompilator z opcją <code>-x</code>. Jeśli oczekujesz wyższego stopnia kompresji, możesz też skorzystać z <a href="http://developer.yahoo.com/yui/compressor/css.html">YUI CSS Compressor</a> korzystając z opcji <code>--yui-compress</code>.</p>
+
+<p>Aby zobaczyć wszystkie dostępne opcje kompilatora, uruchom lessc bez parametrów.</p>
+
+<h2>Użycie z poziomu kodu</h2>
+
+<p>Możesz wywołać kompilator w środowisku node, jak poniżej:</p>
+
+<pre><code>var less = require('less');
+
+less.render('.class { width: (1 + 1) }', function (e, css) {
+    console.log(css);
+});
+</code></pre>
+
+<p>co zwróci:</p>
+
+<pre><code>.class {
+  width: 2;
+}
+</code></pre>
+
+<p>możesz również wywołać parser i kompilator ręcznie:</p>
+
+<pre><code>var parser = new(less.Parser);
+
+parser.parse('.class { width: (1 + 1) }', function (err, tree) {
+    if (err) { return console.error(err) }
+    console.log(tree.toCSS());
+});
+</code></pre>
+
+<h2>Konfiguracja</h2>
+
+<p>Możesz przekazywać do kompilatora opcje:</p>
+
+<pre><code>var parser = new(less.Parser)({
+    paths: ['.', './lib'], // Określa ścieżki przeszukiwania dyrektyw @import
+    filename: 'style.less' // Określa ścieżkę pliku, w celu lepszego raportowania błędów
+});
+
+parser.parse('.class { width: (1 + 1) }', function (e, tree) {
+    tree.toCSS({ compress: true }); // Kompresuje wyjściowy CSS
+});
+</code></pre>
+
+<h1>Inne narzędzia</h1>
+
+<p>Poza oficjalnym kompilatorem, dostępne są też inne narzędzia, opisane na github wiki:</p>
+
+<p><a href="https://github.com/cloudhead/less.js/wiki/Command-Line-use-of-LESS">Narzędzia konsolowe</a></p>
+
+<p><a href="https://github.com/cloudhead/less.js/wiki/GUI-compilers-that-use-LESS.js">Narzędzia z GUI</a></p>
+
+  </div>
+</section>
+
+<section id="docs" class="page">
+  <h1>Język</h1>
+  <div class="content">
+      <p>LESS będąc rozszerzeniem CSS jest z nim nie tylko wstecznie kompatybilny, ale też korzysta z jego istniejącej składni podczas opisu nowych struktur leksykalnych. To sprawia, że nauka LESS jest prosta i jeśli będziesz miał wątpliwości, pozwala ci powrócić do CSS.</p>
+
+<h2>Zmienne</h2>
+
+<p>Poniższy kod jest dość oczywisty:</p>
+
+<pre><code>@nice-blue: #5B83AD;
+@light-blue: (@nice-blue + #111);
+
+#header { color: @light-blue; }
+</code></pre>
+
+<p>Zostanie on przekonwertowany na:</p>
+
+<pre><code>#header { color: #6c94be; }
+</code></pre>
+
+<p>Istnieje również możliwość definiowania zmiennych ze zmienną nazwą:</p>
+
+<pre><code>@fnord: "I am fnord.";
+@var: 'fnord';
+content: @@var;
+</code></pre>
+
+<p>Co zostanie skompilowane do:</p>
+
+<pre><code>content: "I am fnord.";
+</code></pre>
+
+<p>Zauważ, że zmienne w LESS są tak właściwie &ldquo;stałymi&rdquo;, ponieważ mogą być zdefiniowane tylko raz.</p>
+
+<h2>Domieszki (mixins)</h2>
+
+<p>W LESS istnieje możliwość załączenia kilku właściwości z jednego zbioru reguł do innego. Załóżmy, że mamy taką klasę:</p>
+
+<pre><code>.bordered {
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+</code></pre>
+
+<p>I chcemy użyć tych właściwości wewnątrz innego zbioru reguł. Jedyne co musimy zrobić, to dodać nazwę klasy w dowolnym innym zbiorze reguł, jak poniżej:</p>
+
+<pre><code>#menu a {
+  color: #111;
+  .bordered;
+}
+.post a {
+  color: red;
+  .bordered;
+}
+</code></pre>
+
+<p>Właściwości klasy <code>.bordered</code> będą teraz należeć również do <code>#menu a</code> oraz <code>.post a</code>:</p>
+
+<pre><code>#menu a {
+  color: #111;
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+.post a {
+  color: red;
+  border-top: dotted 1px black;
+  border-bottom: solid 2px black;
+}
+</code></pre>
+
+<p>Dowolny zbiór reguł <em>klasy</em> czy <em>id</em> może być wmieszany w ten sposób.</p>
+
+<h2>Parametryczne domieszki (parametric mixins)</h2>
+
+<p>LESS ma specjalny typ zbioru reguł, który może być wmieszany tak jak klasy, ale przyjmując parametry. Tutaj jest przykład:</p>
+
+<pre><code>.border-radius (@radius) {
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+}
+</code></pre>
+
+<p>A tutaj jego użycie w różnych zbiorach reguł.</p>
+
+<pre><code>#header {
+  .border-radius(4px);
+}
+.button {
+  .border-radius(6px);
+}
+</code></pre>
+
+<p>Parametryczne domieszki mogą również posiadać domyślne wartości argumentów:</p>
+
+<pre><code>.border-radius (@radius: 5px) {
+  border-radius: @radius;
+  -moz-border-radius: @radius;
+  -webkit-border-radius: @radius;
+}
+</code></pre>
+
+<p>Teraz możemy użyć jej w ten sposób:</p>
+
+<pre><code>#header {
+  .border-radius;
+}
+</code></pre>
+
+<p><code>#header</code> będzie posiadał 5px border-radius.</p>
+
+<p>Możesz też używać parametrycznych domieszek, które nie przyjmują parametrów. Mogą być przydatne jeśli chcesz, aby zbiór reguł nie został dołączony do wyjściowego CSS, ale jego właściwości były załączone do innych zbiorów reguł:</p>
+
+<pre><code>.wrap () {
+  text-wrap: wrap;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-wrap: break-word;
+}
+
+pre { .wrap }
+</code></pre>
+
+<p>Co zostanie skompilowane do:</p>
+
+<pre><code>pre {
+  text-wrap: wrap;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  word-wrap: break-word;
+}
+</code></pre>
+
+<h3>Zmienna <code>@arguments</code></h3>
+
+<p><code>@arguments</code> ma specjalne znaczenie wewnątrz domieszek. Zawiera wszystkie argumenty, przekazane podczas wywołania domieszki. Jest to użyteczne, jeśli nie musisz operować na poszczególnych zmiennych:</p>
+
+<pre><code>.box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
+  box-shadow: @arguments;
+  -moz-box-shadow: @arguments;
+  -webkit-box-shadow: @arguments;
+}
+.box-shadow(2px, 5px);
+</code></pre>
+
+<p>Co w efekcie da:</p>
+
+<pre><code>  box-shadow: 2px 5px 1px #000;
+  -moz-box-shadow: 2px 5px 1px #000;
+  -webkit-box-shadow: 2px 5px 1px #000;
+</code></pre>
+
+<h2>Dopasowania wzorców (pattern-matching) i strażnicy (guard expressions)</h2>
+
+<p>Czasami możesz chcieć zmienić zachowanie domieszki w oparciu o parametry, które do niej przekazujesz. Zacznijmy od czegoś prostego:</p>
+
+<pre><code>.mixin (@s, @color) { ... }
+
+.class {
+  .mixin(@switch, #888);
+}
+</code></pre>
+
+<p>Teraz załóżmy, że chcemy aby <code>.mixin</code> zachowywał się różnie w zależności od wartości <code>@switch</code>. Możemy zdefiniować <code>.mixin</code> następująco:</p>
+
+<pre><code>.mixin (dark, @color) {
+  color: darken(@color, 10%);
+}
+.mixin (light, @color) {
+  color: lighten(@color, 10%);
+}
+.mixin (@_, @color) {
+  display: block;
+}
+</code></pre>
+
+<p>Jeśli go teraz uruchomimy:</p>
+
+<pre><code>@switch: light;
+
+.class {
+  .mixin(@switch, #888);
+}
+</code></pre>
+
+<p>Otrzymamy poniższy CSS:</p>
+
+<pre><code>.class {
+  color: #a2a2a2;
+  display: block;
+}
+</code></pre>
+
+<p>Gdzie kolor przekazany do <code>.mixin</code> został rozjaśniony. Jeżeli wartość <code>@switch</code> wynosiłaby <code>dark</code>, w efektcie otrzymalibyśmy ciemniejszy kolor.</p>
+
+<p>Oto wyjaśnienie tego, co się stało:</p>
+
+<ul>
+<li>pierwsza definicja domieszki nie pasowała, ponieważ oczekiwana była wartość <code>dark</code> jako pierwszy argument,</li>
+<li>druga definicja domieszki pasowała, ponieważ oczekiwaną była wartość <code>light</code>,</li>
+<li>trzecia definicja domieszki pasowała, ponieważ oczekiwana była dowolna wartość.</li>
+</ul>
+
+
+<p>Zostały użyte tylko te definicje, które pasowały. Zmienne pasują i wiążą do dowolnej wartości. Wszystko inne niż zmienna pasuje tylko do takiej samej wartości.</p>
+
+<p>Możemy również dopasowywać poprzez arność, tutaj jest przykład:</p>
+
+<pre><code>.mixin (@a) {
+  color: @a;
+}
+.mixin (@a, @b) {
+  color: fade(@a, @b);
+}
+</code></pre>
+
+<p>Jeżeli teraz wywołamy <code>.mixin</code> z jednym argumentem, otrzymamy pierwszą definicję, ale jeśli wywołamy go z dwoma argumentami, otrzymamy drugą definicję, mianowicie <code>@a</code> przechodzący w <code>@b</code>.</p>
+
+<h3>Strażnicy (guards)</h3>
+
+<p>Strażnicy są przydatni, kiedy zamiast prostych wartości, bądź arności, chcesz dopasować <em>wyrażenia</em>. Jeżeli miałeś styczność z programowaniem funkcyjnym, prawdopodobnie już się z nimi spotkałeś.</p>
+
+<p>Starając się trzymać tak bardzo jak to możliwe deklaratywnej natury CSS, w LESS wykonywanie warunkowych działań odbywa się poprzez strzeżone domieszki (guarded mixins) zamiast bloków if/else, w stylu istniejącego w CSS3 @media.</p>
+
+<p>Zacznijmy od przykładu</p>
+
+<pre><code>.mixin (@a) when (lightness(@a) &gt;= 50%) {
+  background-color: black;
+}
+.mixin (@a) when (lightness(@a) &lt; 50%) {
+  background-color: white;
+}
+.mixin (@a) {
+  color: @a;
+}
+</code></pre>
+
+<p>Kluczowym jest słowo <strong><code>when</code></strong>, które rozpoczyna sekwencję strażnika (w tym przykładzie jest tylko jeden strażnik. Jeśli teraz uruchomimy następujący kod:</p>
+
+<pre><code>.class1 { .mixin(#ddd) }
+.class2 { .mixin(#555) }
+</code></pre>
+
+<p>Otrzymamy:</p>
+
+<pre><code>.class1 {
+  background-color: black;
+  color: #ddd;
+}
+.class2 {
+  background-color: white;
+  color: #555;
+}
+</code></pre>
+
+<p>Pełna lista operatorów porównania używanych w strażnikach to: <strong><code>&gt; &gt;= = =&lt; &lt;</code></strong>. Dodatkowo słowo kluczowe <code>true</code>
+jest jedyną prawdziwą wartością, sprawiającą że te dwie domieszki są równoważne z:</p>
+
+<pre><code>.truth (@a) when (@a) { ... }
+.truth (@a) when (@a = true) { ... }
+</code></pre>
+
+<p>Każda wartość inna niż <code>true</code> jest fałszem:</p>
+
+<pre><code>.class {
+  .truth(40); // Will not match any of the above definitions.
+}
+</code></pre>
+
+<p>Strażnicy mogą być oddzielani przecinkiem &lsquo;<code>,</code>&rsquo;&mdash;jeżeli którykolwiek ze strażników nie ewaluuje do wartości true, uznaje się że pasuje:</p>
+
+<pre><code>.mixin (@a) when (@a &gt; 10), (@a &lt; -10) { ... }
+</code></pre>
+
+<p>Zauważ, że możesz także porównywać argumenty między sobą, lub z innymi wartościami:</p>
+
+<pre><code>@media: mobile;
+
+.mixin (@a) when (@media = mobile) { ... }
+.mixin (@a) when (@media = desktop) { ... }
+
+.max (@a, @b) when (@a &gt; @b) { width: @a }
+.max (@a, @b) when (@a &lt; @b) { width: @b }
+</code></pre>
+
+<p>W końcu, jeśli chcesz dopasować domieszki bazujące na typie wartości, możesz użyć funkcji <em>is*</em>:</p>
+
+<pre><code>.mixin (@a, @b: 0) when (isnumber(@b)) { ... }
+.mixin (@a, @b: black) when (iscolor(@b)) { ... }
+</code></pre>
+
+<p>Oto podstawowe funkcje sprawdzające typy:</p>
+
+<ul>
+<li><code>iscolor</code></li>
+<li><code>isnumber</code></li>
+<li><code>isstring</code></li>
+<li><code>iskeyword</code></li>
+<li><code>isurl</code></li>
+</ul>
+
+
+<p>Jeżeli chcesz sprawdzić, czy wartość, poza tym że jest numeryczna, ma ponadto konkretną jednostkę, możesz użyć jednej z tych funkcji:</p>
+
+<ul>
+<li><code>ispixel</code></li>
+<li><code>ispercentage</code></li>
+<li><code>isem</code></li>
+</ul>
+
+
+<p>W końcu możesz też użyć słowa kluczowego <strong><code>and</code></strong>, aby określić dodatkowe warunki wewnątrz strażnika:</p>
+
+<pre><code>.mixin (@a) when (isnumber(@a)) and (@a &gt; 0) { ... }
+</code></pre>
+
+<p>Oraz słowa kluczowego <strong><code>not</code></strong> do negowania warunków:</p>
+
+<pre><code>.mixin (@b) when not (@b &gt; 0) { ... }
+</code></pre>
+
+<h2>Zagnieżdżone reguły (nested rules)</h2>
+
+<p>LESS daje ci możliwość używania zagnieżdżeń zamiast kaskadowości, lub też w połączeniu z nią.
+Załóżmy, że mamy poniższy CSS:</p>
+
+<pre><code>#header { color: black; }
+#header .navigation {
+  font-size: 12px;
+}
+#header .logo {
+  width: 300px;
+}
+#header .logo:hover {
+  text-decoration: none;
+}
+</code></pre>
+
+<p>W LESS możemy również zapisać to w ten sposób:</p>
+
+<pre><code>#header {
+  color: black;
+
+  .navigation {
+    font-size: 12px;
+  }
+  .logo {
+    width: 300px;
+    &amp;:hover { text-decoration: none }
+  }
+}
+</code></pre>
+
+<p>Lub w ten sposób:</p>
+
+<pre><code>#header        { color: black;
+  .navigation  { font-size: 12px }
+  .logo        { width: 300px;
+    &amp;:hover    { text-decoration: none }
+  }
+}
+</code></pre>
+
+<p>W efekcie kod jest bardziej zwięzły i lepiej odzwierciedla strukturę <code>drzewa DOM</code>.</p>
+
+<p>Zauważ, że kombinator <code>&amp;</code>&mdash;jest używany, kiedy chcesz aby zagnieżdżony selektor został dołączony do selektora jego rodzica, zamiast zachowywać się jak potomek. Jest to szczególnie przydatne, kiedy używamy pseudo-klas takich jak <code>:hover</code> czy <code>:focus</code>.</p>
+
+<p>Na przykład:</p>
+
+<pre><code>.bordered {
+  &amp;.float {
+    float: left;
+  }
+  .top {
+    margin: 5px;
+  }
+}
+</code></pre>
+
+<p>Zwróci:</p>
+
+<pre><code>.bordered.float {
+  float: left;
+}
+.bordered .top {
+  margin: 5px;
+}
+</code></pre>
+
+<h2>Zaawansowane zastosowanie &amp;</h2>
+
+<p>Symbol &amp; może być używany w selektorach do odwracania porządku zagnieżdżania i do kombinowania klas.</p>
+
+<p>Na przykład:</p>
+
+<pre><code>.child, .sibling {
+    .parent &amp; {
+        color: black;
+    }
+    &amp; + &amp; {
+        color: red;
+    }
+}
+</code></pre>
+
+<p>Zwróci:</p>
+
+<pre><code>.parent .child,
+.parent .sibling {
+    color: black;
+}
+.child + .child,
+.child + .sibling,
+.sibling + .child,
+.sibling + .sibling {
+    color: red;
+}
+</code></pre>
+
+<p>Możesz też używać &amp; w domieszkach, aby odnieść się do bloku na zewnątrz domieszki.</p>
+
+<h2>Operacje</h2>
+
+<p>Każdy numer, kolor czy zmienna mogą być operandami. Operacje powinny być wykonywane wewnątrz nawiasów.
+Poniżej kilka przykładów:</p>
+
+<pre><code>@base: 5%;
+@filler: (@base * 2);
+@other: (@base + @filler);
+
+color: (#888 / 4);
+background-color: (@base-color + #111);
+height: (100% / 2 + @filler);
+</code></pre>
+
+<p>Rezultat jest prawdopodobnie zgodny z twoją intuicją—LESS rozróżnia kolory i jednostki. Jeżeli jednostka jest użyta w operacji, tak jak tutaj:</p>
+
+<pre><code>@var: (1px + 5);
+</code></pre>
+
+<p>LESS użyje tej jednostki w wyjściowym CSS—w tym wypadku <code>6px</code>.</p>
+
+<p>Dodatkowe nawiasy również są dozwolone wewnątrz operacji:</p>
+
+<pre><code>width: ((@var + 5) * 2);
+</code></pre>
+
+<h2>Funkcje kolorów</h2>
+
+<p>LESS oferuje szereg funkcji przekształcających kolory. Kolory są najpierw konwertowane do przestrzeni barw <em>HSL</em>, a następnie zmieniane na poziomie kanałów:</p>
+
+<pre><code>lighten(@color, 10%);    // zwraca kolor 10% jaśniejszy od @color
+darken(@color, 10%);     // zwraca kolor 10% ciemniejszy od @color
+
+saturate(@color, 10%);   // zwraca kolor o 10% bardziej nasycony niż @color
+desaturate(@color, 10%); // zwraca kolor o 10% mniej nasycony niż @color
+
+fadein(@color, 10%);     
+    // zwraca kolor o 10% mniej przezroczysty niż @color
+fadeout(@color, 10%);    
+    // zwraca kolor o 10% bardziej przezroczysty niż @color
+fade(@color, 50%);       // zwraca kolor o przezroczystości 50%
+
+spin(@color, 10);        // zwraca kolor o parametrze HUE większym o 10 stopni niż @color
+spin(@color, -10);       // zwraca kolor o parametrze HUE mniejszym o 10 stopni niż @color
+
+mix(@color1, @color2, @stosunek);  
+    // zwraca rezultat zmieszania kolorów @color1 i @color2, domyślnie w stosunku 50%
+contrast(@color1, @darkcolor, @lightcolor); 
+    // zwróci @darkcolor jeżeli @color1 parametr jasności jest większy niż 50%
+    // w przeciwnym wypadku zwróci @lightcolor
+</code></pre>
+
+<p>Używanie tych funkcji jest bardzo proste:</p>
+
+<pre><code>@base: #f04615;
+
+.class {
+  color: saturate(@base, 5%);
+  background-color: spin(lighten(@base, 25%), 8);
+}
+</code></pre>
+
+<p>Możesz też uzyskać informacje o kolorach:</p>
+
+<pre><code>hue(@color);        // zwraca wartość kanału `hue`
+saturation(@color); // zwraca wartość kanału `saturation`
+lightness(@color);  // zwraca wartość kanału 'lightness'
+red(@color);        // zwraca wartość kanału 'red'
+green(@color);      // zwraca wartość kanału 'green'
+blue(@color);       // zwraca wartość kanału 'blue'
+alpha(@color);      // zwraca wartość kanału 'alpha'
+luma(@color);       // zwraca wartość 'luma'
+</code></pre>
+
+<p>Jest to przydatne, kiedy chcesz stworzyć nowy kolor, bazując na kanale innego koloru:</p>
+
+<pre><code>@new: hsl(hue(@old), 45%, 90%);
+</code></pre>
+
+<p><code>@new</code> będzie miał wartość <em>hue</em> koloru <code>@old</code> oraz swoje własne nasycenie i jasność. Kolory są zawsze zwracane jako wartości RGB, więc wywoływanie funkcji <code>spin</code> na szarym kolorze nic nie zmieni.</p>
+
+<h2>Funkcje matematyczne</h2>
+
+<p>LESS oferuje kilka przydatnych funkcji matematycznych, których możesz używać na wartościach numerycznych:</p>
+
+<pre><code>round(1.67); // zwraca `2`
+ceil(2.4);   // zwraca `3`
+floor(2.6);  // zwraca `2`
+</code></pre>
+
+<p>Jeśli chcesz zmienić ułamek na procent, możesz użyć funkcji <code>percentage</code>:</p>
+
+<pre><code>percentage(0.5); // zwraca `50%`
+</code></pre>
+
+<h2>Przestrzenie nazw</h2>
+
+<p>Czasem możesz mieć potrzebę pogrupowania zmiennych i domieszek, z przyczyn organizacji kodu, albo po prostu, żeby dodać enkapsulację.
+Możesz zrobić to w dość intuicyjny sposób. Załóżmy, że chesz powiązać jakieś domieszki i wartości wewnątrz <code>#bundle</code>, aby następnie ich użyć:</p>
+
+<pre><code>#bundle {
+  .button () {
+    display: block;
+    border: 1px solid black;
+    background-color: grey;
+    &amp;:hover { background-color: white }
+  }
+  .tab { ... }
+  .citation { ... }
+}
+</code></pre>
+
+<p>Jeśli teraz chcesz wmieszać klasę <code>.button</code> do naszego <code>#header a</code>, możesz to zrobić tak:</p>
+
+<pre><code>#header a {
+  color: orange;
+  #bundle &gt; .button;
+}
+</code></pre>
+
+<h2>Zasięg</h2>
+
+<p>Zasięg w LESS jest bardzo podobny do tego w językach programowania. Zmienne i domieszki są najpierw przeszukiwane lokalnie,
+a następnie, jeśli nie zostały znalezione, kompilator będzie ich szukał w bloku rodzica i tak dalej.</p>
+
+<pre><code>@var: red;
+
+#page {
+  @var: white;
+  #header {
+    color: @var; // white
+  }
+}
+
+#footer {
+  color: @var; // red
+}
+</code></pre>
+
+<h2>Komentarze</h2>
+
+<p>Komentarze w CSS są dostępne również w LESS:</p>
+
+<pre><code>/* Hej, jestem komentarzem w stylu CSS */
+.class { color: black }
+</code></pre>
+
+<p>Ponadto poprawne są również jednolinijkowe komentarze, jednak są &lsquo;ciche&rsquo; (silent) i nie będą widoczne w wyjściowym kodzie CSS:</p>
+
+<pre><code>// Cześć, jestem cichym komentarzem i nie będzie mnie w wyjściowym CSS
+.class { color: white }
+</code></pre>
+
+<h2>Importowanie</h2>
+
+<p>Możesz importować pliki <code>.less</code> i wszystkie zmienne oraz domieszki będą dostępne w głównym pliku.
+Rozszerzenie <code>.less</code> nie jest obowiązkowe, więc obie wersje są poprawne:</p>
+
+<pre><code>@import "lib.less";
+@import "lib";
+</code></pre>
+
+<p>Jeśli chcesz importować plik CSS i nie chcesz, żeby LESS go przetwarzał, wystarczy że użyjesz rozszeżenia <code>.css</code>:</p>
+
+<pre><code>@import "lib.css";
+</code></pre>
+
+<p>Dyrektywa pozostanie nienaruszona i znajdzie się w wyjściowym pliku CSS.</p>
+
+<h2>Interpolacja łańcuchów (string interpolation)</h2>
+
+<p>Zmienne mogą być używane wewnątrz łańcuchów w sposób podobny do Rubiego czy PHP, wewnątrz <code>@{nazwa}</code>:</p>
+
+<pre><code>@base-url: "http://assets.fnord.com";
+background-image: url("@{base-url}/images/bg.png");
+</code></pre>
+
+<h2>Escaping</h2>
+
+<p>Może się zdażyć, że będziesz musiał skorzystać z wartości, która nie jest zgodna ze składnią CSS, lub ma składnię nierozpoznawaną przez LESS.</p>
+
+<p>Aby wypisać taką wartość, umieszczamy ją wewnątrz łańcucha poprzedzonego przez <code>~</code>:</p>
+
+<pre><code>.class {
+  filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";
+}
+</code></pre>
+
+<p>Po angielsku wartość taką nazywa się &ldquo;escaped value&rdquo;. W rezultacie otrzymamy:</p>
+
+<pre><code>.class {
+  filter: ms:alwaysHasItsOwnSyntax.For.Stuff();
+}
+</code></pre>
+
+<h2>Interpolacja selektorów (selector interpolation)</h2>
+
+<p>Jeśli chcesz używać zmiennych less wewnątrz selektorów, możesz to zrobić poprzez odniesienie się do zmiennej za pomocą <code>@{selektor}</code>, tak samo jak przy interpolacji łańcuchów znaków. Na przykład:</p>
+
+<pre><code>@name: blocked;
+.@{name} {
+    color: black;
+}
+</code></pre>
+
+<p>zwróci:</p>
+
+<pre><code>.blocked {
+    color: black;
+}
+</code></pre>
+
+<p>Uwaga: do LESS w wersji 1.3.1 wyrażenie <code>(~"@{nazwa}")</code> było dozwolone. Będzie ono jednak usunięte w niedalekiej przyszłości.</p>
+
+<h2>Wykonywanie kodu JavaScript</h2>
+
+<p>Wyrażenia JavaScript mogą być wywoływane tak jak wartości wewnątrz plików .less. Zalecamy ostrożność podczas korzystania z tej możliwości,
+ponieważ taki kod trudniejszy w rozwijaniu i mniej przenośny. Jeżeli to możliwe, spróbuj pomyśleć o funkcji, która mogłaby być użyta
+w celu uzyskania tego efektu i zapytaj o nią w na GitHubie. Mamy w planach zezwolenie na rozszerzanie domyślnego zbioru funkcji.
+Jednak jeśli ciągle chcesz używać JavaScriptu wewnątrz .less, możesz to zrobić otaczając wyrażenie grawisami (back-ticks):</p>
+
+<pre><code>@var: `"cześć".toUpperCase() + '!'`;
+</code></pre>
+
+<p>Zostanie zamienione na:</p>
+
+<pre><code>@var: "CZEŚĆ!";
+</code></pre>
+
+<p>Możesz też używać interpolacji i &ldquo;escapingu&rdquo; tak jak w łańcuchach znaków:</p>
+
+<pre><code>@str: "cześć";
+@var: ~`"@{str}".toUpperCase() + '!'`;
+</code></pre>
+
+<p>Zostanie zamienione na:</p>
+
+<pre><code>@var: CZEŚĆ!;
+</code></pre>
+
+<p>Możesz również odnieść się do zmiennych z środowiska JavaScript:</p>
+
+<pre><code>@height: `document.body.clientHeight`;
+</code></pre>
+
+<p>Jeśli chcesz użyć łańcucha znaków z JavaScript jako koloru w zapisie szesnastkowym, możesz skorzystać z funkcji <code>color</code>:</p>
+
+<pre><code>@color: color(`window.colors.baseColor`);
+@darkcolor: darken(@color, 10%);
+</code></pre>
+
+  </div>
+</section>
+
+<section id="translations" class="page">
+  <div class="content">
+    <h1>W innych językach</h1>
+    <ul>
+        <li>Rosyjski: <a href="http://lesscss.ru">http://lesscss.ru</a></li>
+        <li>Chiński: <a href="http://lesscss.net">http://lesscss.net</a></li>
+        <li>Japoński: <a href="http://less-ja.studiomohawk.com/">http://less-ja.studiomohawk.com/</a></li>
+        <li>Białoruski: <a href="http://www.designcontest.com/show/lesscss-be">http://www.designcontest.com/show/lesscss-be</a></li>
+		    <li>Portugalski: <a href="http://lesscss.loopinfinito.com.br/">http://lesscss.loopinfinito.com.br/</a></li>
+    </ul>
+  </div>
+</section>
+
+<section id="about" class="page">
+  <div class="content">
+    <h1>O projekcie</h1>
+
+<p>LESS został stworzony przez <a href="http://cloudhead.io">Alexisa 
