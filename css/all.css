@@ -67,13 +67,13 @@ strong { font-weight: bold; }
 }
 #header_wrapper {
   height: 122px;
-  background: url(/images/header_bg.png) repeat-x;
+  background: url(/lesscss.org/images/header_bg.png) repeat-x;
 }
 #header {
   width: 900px;
   height: 122px;
   margin: 0 auto;
-  background: url(/images/header_highlight.png) no-repeat 40px 0;
+  background: url(/lesscss.org/images/header_highlight.png) no-repeat 40px 0;
   position: relative;
 }
 #logo {
@@ -83,7 +83,7 @@ strong { font-weight: bold; }
   height: 81px;
   left: -15px;
   top: 23px;
-  background: url(/images/logo.png) no-repeat;
+  background: url(/lesscss.org/images/logo.png) no-repeat;
 }
 #navigation {
   position: absolute;
@@ -108,10 +108,10 @@ strong { font-weight: bold; }
   text-shadow: #213454 0 1px 1px;
 }
 #navigation li a:hover { text-decoration: underline; }
-#navigation .active_tab { background: url(/images/tab_right.png) no-repeat top right; }
-#navigation .active_tab a { background: url(/images/tab_left.png) no-repeat top left; }
+#navigation .active_tab { background: url(/lesscss.org/images/tab_right.png) no-repeat top right; }
+#navigation .active_tab a { background: url(/lesscss.org/images/tab_left.png) no-repeat top left; }
 #navigation .active_tab a:hover { text-decoration: none; }
-#sub_header_wrapper { background: url(/images/sub_header_bg.png) repeat-x top #dfeff9; }
+#sub_header_wrapper { background: url(/lesscss.org/images/sub_header_bg.png) repeat-x top #dfeff9; }
 #sub_header {
   width: 900px;
   margin: 0 auto;
@@ -255,7 +255,7 @@ strong { font-weight: bold; }
 #download code.strip {
   display: block;
   position: relative;
-  background: url(/images/code_bg.png) no-repeat;
+  background: url(/lesscss.org/images/code_bg.png) no-repeat;
   width: 290px;
   padding: 0 30px 0 31px;
   height: 65px;
