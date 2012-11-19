@@ -16,7 +16,7 @@ Upewnij się, że załączasz arkusze stylów *przed* skryptem.
 Tryb obserwatora (watch mode)
 ----------
 
-*Tryb obserwatora* sprawia, że twoje style są odświeżane automatycznie kiedy tylko są zmienione.
+*Tryb obserwatora* sprawia, że twoje style są odświeżane automatycznie podczas każdej zmiany.
 
 Aby przejść do tego trybu, dodaj '`#!watch`' do adresu URL w przeglądarce, a następnie odśwież stronę. Inny sposób to wywołanie `less.watch()` z konsoli przeglądarki.
 
@@ -26,7 +26,7 @@ Użycie po stronie serwera
 Instalacja
 ------------
 
-Najprostszym sposobem instalacji LESS na serwerze, jest skorzystanie z [npm](http://github.com/isaacs/npm), menadżera pakietów node:
+Najprostszym sposobem instalacji LESS na serwerze jest skorzystanie z [npm](http://github.com/isaacs/npm), menadżera pakietów node:
 
     $ npm install -g less
 	

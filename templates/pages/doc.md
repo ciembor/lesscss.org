@@ -60,12 +60,12 @@ Właściwości klasy `.bordered` będą teraz należeć również do `#menu a` o
       border-bottom: solid 2px black;
     }
 
-Dowolny zbiór reguł *klasy* czy *id* może wyć wmieszany w ten sposób.
+Dowolny zbiór reguł *klasy* czy *id* może być wmieszany w ten sposób.
 
 Parametryczne domieszki (parametric mixins)
 -----------------
 
-LESS ma specjalny typ zbioru reguł, który może być wmieszany tak jak klasy, ale przyjmując parametry. Tutaj jest wzorcowy przykład:
+LESS ma specjalny typ zbioru reguł, który może być wmieszany tak jak klasy, ale przyjmując parametry. Tutaj jest przykład:
 
     .border-radius (@radius) {
       border-radius: @radius;
@@ -96,9 +96,9 @@ Teraz możemy użyć jej w ten sposób:
       .border-radius;
     }
 
-I `#header` będzie posiadał 5px border-radius.
+`#header` będzie posiadał 5px border-radius.
 
-Możesz też używać parametrycznych domieszek, które nie przyjmują parametrów. Mogą być przydatne jeśli chcesz, aby zbiór reguł nie został dołączony do wyjściowego CSS, ale jego własności były załączone do innych zbiorów reguł:
+Możesz też używać parametrycznych domieszek, które nie przyjmują parametrów. Mogą być przydatne jeśli chcesz, aby zbiór reguł nie został dołączony do wyjściowego CSS, ale jego właściwości były załączone do innych zbiorów reguł:
 
     .wrap () {
       text-wrap: wrap;
@@ -120,7 +120,7 @@ Co zostanie skompilowane do:
 
 ### Zmienna `@arguments`
 
-`@arguments` ma specjalne znaczenie wewnątrz domieszek, zawiera wszystkie przekazane argumenty, podczas wywołania domieszki. Jest to użyteczne, jeśli nie musisz operować na poszczególnych zmiennych:
+`@arguments` ma specjalne znaczenie wewnątrz domieszek. Zawiera wszystkie argumenty, przekazane podczas wywołania domieszki. Jest to użyteczne, jeśli nie musisz operować na poszczególnych zmiennych:
 
     .box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
       box-shadow: @arguments;
@@ -145,7 +145,7 @@ Czasami możesz chcieć zmienić zachowanie domieszki w oparciu o parametry, kt�
       .mixin(@switch, #888);
     }
 
-Teraz załóżmy, że chcemy aby `.mixin` zachowywał się różnie w zależności od wartości `@switch`. Możemy zdefiniować `.mixin` w następująco:
+Teraz załóżmy, że chcemy aby `.mixin` zachowywał się różnie w zależności od wartości `@switch`. Możemy zdefiniować `.mixin` następująco:
 
     .mixin (dark, @color) {
       color: darken(@color, 10%);
@@ -176,7 +176,7 @@ Gdzie kolor przekazany do `.mixin` został rozjaśniony. Jeżeli wartość `@swi
 
 Oto wyjaśnienie tego, co się stało:
 
-- pierwsza definicja domieszki nie została dopasowana, ponieważ oczekiwana była wartość `dark` jako pierwszy argument,
+- pierwsza definicja domieszki nie pasowała, ponieważ oczekiwana była wartość `dark` jako pierwszy argument,
 - druga definicja domieszki pasowała, ponieważ oczekiwaną była wartość `light`,
 - trzecia definicja domieszki pasowała, ponieważ oczekiwana była dowolna wartość.
 
@@ -195,7 +195,7 @@ Jeżeli teraz wywołamy `.mixin` z jednym argumentem, otrzymamy pierwszą defini
 
 ### Strażnicy (guards)
 
-Strażnicy są przydatni, kiedy zamiast prostych wartości bądź arności, chcesz dopasować *wyrażenia*. Jeżeli miałeś styczność z programowaniem funkcyjnym, prawdopodobnie spotkałeś się już z nimi. 
+Strażnicy są przydatni, kiedy zamiast prostych wartości, bądź arności, chcesz dopasować *wyrażenia*. Jeżeli miałeś styczność z programowaniem funkcyjnym, prawdopodobnie już się z nimi spotkałeś. 
 
 Starając się trzymać tak bardzo jak to możliwe deklaratywnej natury CSS, w LESS wykonywanie warunkowych działań odbywa się poprzez strzeżone domieszki (guarded mixins) zamiast bloków if/else, w stylu istniejącego w CSS3 @media.
 
@@ -228,8 +228,8 @@ Otrzymamy:
       color: #555;
     }
 
-Pełna lista operatorów porównania używanych w strażnikach to: **`> >= = =< <`++. Dodatkowo słowo kluczowe `true`
-jest jedyną prawdziwą wartością, sprawiającą, że te dwie domieszki są równoważne z:
+Pełna lista operatorów porównania używanych w strażnikach to: **`> >= = =< <`**. Dodatkowo słowo kluczowe `true`
+jest jedyną prawdziwą wartością, sprawiającą że te dwie domieszki są równoważne z:
 
     .truth (@a) when (@a) { ... }
     .truth (@a) when (@a = true) { ... }
@@ -240,7 +240,7 @@ Każda wartość inna niż `true` jest fałszem:
       .truth(40); // Will not match any of the above definitions.
     }
 
-Strażnicy mogą być oddzielani przecinkiem '`,`'--jeżeli którykolwiek ze strażników nie ewaluuje do wartości true, uznaje się, że pasuje:
+Strażnicy mogą być oddzielani przecinkiem '`,`'--jeżeli którykolwiek ze strażników nie ewaluuje do wartości true, uznaje się że pasuje:
 
     .mixin (@a) when (@a > 10), (@a < -10) { ... }
 
@@ -267,7 +267,7 @@ Oto podstawowe funkcje sprawdzające typy:
 - `iskeyword`
 - `isurl`
 
-Jeżeli chcesz sprawdzić, czy wartość poza tym, że jest numeryczna, ma ponadto konkretną jednostkę, możesz użyć jednej z tych funkcji:
+Jeżeli chcesz sprawdzić, czy wartość, poza tym że jest numeryczna, ma ponadto konkretną jednostkę, możesz użyć jednej z tych funkcji:
 
 - `ispixel`
 - `ispercentage`
@@ -281,7 +281,7 @@ Oraz słowa kluczowego **`not`** do negowania warunków:
 
     .mixin (@b) when not (@b > 0) { ... }
 
-Zagnieżdżone reguły
+Zagnieżdżone reguły (nested rules)
 ------------
 
 LESS daje ci możliwość używania zagnieżdżeń zamiast kaskadowości, lub też w połączeniu z nią.
@@ -323,7 +323,7 @@ Lub w ten sposób:
 
 W efekcie kod jest bardziej zwięzły i lepiej odzwierciedla strukturę `drzewa DOM`.
 
-Zauważ, że kombinator `&`--jest używany, kiedy chcesz aby zagnieżdżony selektor został dołączony do selektora jego rodzica, zamiast zachowywać się jak potomek. Jest to szczególnie przydatne w użyciu z pseudo-klasami takimi jak `:hover` czy `:focus`.
+Zauważ, że kombinator `&`--jest używany, kiedy chcesz aby zagnieżdżony selektor został dołączony do selektora jego rodzica, zamiast zachowywać się jak potomek. Jest to szczególnie przydatne, kiedy używamy pseudo-klas takich jak `:hover` czy `:focus`.
 
 Na przykład:
 
@@ -380,7 +380,7 @@ Możesz też używać & w domieszkach, aby odnieść się do bloku na zewnątrz 
 Operacje
 ----------
 
-Każdy numer, kolor czy zmienna mogą być operandami. Operacje powinny być wykoniwane wewnątrz nawiasów. 
+Każdy numer, kolor czy zmienna mogą być operandami. Operacje powinny być wykonywane wewnątrz nawiasów. 
 Poniżej kilka przykładów:
 
     @base: 5%;
@@ -391,7 +391,7 @@ Poniżej kilka przykładów:
     background-color: (@base-color + #111);
     height: (100% / 2 + @filler);
 
-Rezultat jest prawdopodobnie zgodny z twoją intuicją—LESS rozróżnia kolory i jednostki. Jeżeli jednostka jest użyta w operacji tak jak tutaj:
+Rezultat jest prawdopodobnie zgodny z twoją intuicją—LESS rozróżnia kolory i jednostki. Jeżeli jednostka jest użyta w operacji, tak jak tutaj:
 
     @var: (1px + 5);
 
@@ -451,7 +451,7 @@ Jest to przydatne, kiedy chcesz stworzyć nowy kolor, bazując na kanale innego 
 
     @new: hsl(hue(@old), 45%, 90%);
 
-`@new` będzie miało wartość *hue* koloru `@old` i będzie miał swoje własne nasycenie i jasność. Kolory są zawsze zwracane jako wartości RGB, więc wywoływanie funkcji `spin` na szarym kolorze nic nie zmieni.
+`@new` będzie miał wartość *hue* koloru `@old` oraz swoje własne nasycenie i jasność. Kolory są zawsze zwracane jako wartości RGB, więc wywoływanie funkcji `spin` na szarym kolorze nic nie zmieni.
 
 Funkcje matematyczne
 --------------
@@ -493,7 +493,7 @@ Jeśli teraz chcesz wmieszać klasę `.button` do naszego `#header a`, możesz t
 Zasięg
 -----
 
-Zasięg w LESS jest bardzo podobny do tego w językach programowania. Zmienne i domieszki są najpierws przeszukiwane lokalnie,
+Zasięg w LESS jest bardzo podobny do tego w językach programowania. Zmienne i domieszki są najpierw przeszukiwane lokalnie,
 a następnie, jeśli nie zostały znalezione, kompilator będzie ich szukał w bloku rodzica i tak dalej.
 
     @var: red;
@@ -526,7 +526,7 @@ Importowanie
 ---------
 
 Możesz importować pliki `.less` i wszystkie zmienne oraz domieszki będą dostępne w głównym pliku.
-Rozszerzenie `.less` nie jest konieczne, więc obie wersje są poprawne:
+Rozszerzenie `.less` nie jest obowiązkowe, więc obie wersje są poprawne:
 
     @import "lib.less";
     @import "lib";
@@ -548,7 +548,7 @@ Zmienne mogą być używane wewnątrz łańcuchów w sposób podobny do Rubiego 
 Escaping
 --------
 
-Może się zdażyć, że będziesz musiał skorzystać z wartości, która nie jest zgodna ze składnią CSS, lub składnią nierozpoznawaną przez LESS.
+Może się zdażyć, że będziesz musiał skorzystać z wartości, która nie jest zgodna ze składnią CSS, lub ma składnię nierozpoznawaną przez LESS.
 
 Aby wypisać taką wartość, umieszczamy ją wewnątrz łańcucha poprzedzonego przez `~`:
 
@@ -556,7 +556,7 @@ Aby wypisać taką wartość, umieszczamy ją wewnątrz łańcucha poprzedzonego
       filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";
     }
 
-Po angielsku wartość taką nazywa się "escaped value", w rezultacie otrzymamy:
+Po angielsku wartość taką nazywa się "escaped value". W rezultacie otrzymamy:
 
     .class {
       filter: ms:alwaysHasItsOwnSyntax.For.Stuff();
@@ -580,12 +580,12 @@ zwróci:
 	
 Uwaga: do LESS w wersji 1.3.1 wyrażenie `(~"@{nazwa}")` było dozwolone. Będzie ono jednak usunięte w niedalekiej przyszłości.
 
-wykonywanie kodu JavaScript
+Wykonywanie kodu JavaScript
 ---------------------
 
 Wyrażenia JavaScript mogą być wywoływane tak jak wartości wewnątrz plików .less. Zalecamy ostrożność podczas korzystania z tej możliwości,
-ponieważ taki kod może nie być przenośny i trudniejszy w rozwijaniu. Jeżeli to możliwe, spróbuj pomyśleć o funkcji, która może być użyta
-w celu uzyskania tego efektu i zapytaj o nią w serwisie GitHub. Mamy w planach zezwolenie na rozszerzanie domyślnego zbioru funkcji.
+ponieważ taki kod trudniejszy w rozwijaniu i mniej przenośny. Jeżeli to możliwe, spróbuj pomyśleć o funkcji, która mogłaby być użyta
+w celu uzyskania tego efektu i zapytaj o nią w na GitHubie. Mamy w planach zezwolenie na rozszerzanie domyślnego zbioru funkcji.
 Jednak jeśli ciągle chcesz używać JavaScriptu wewnątrz .less, możesz to zrobić otaczając wyrażenie grawisami (back-ticks):
 
     @var: `"cześć".toUpperCase() + '!'`;

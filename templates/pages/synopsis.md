@@ -1,7 +1,7 @@
 Zmienne
 ---------
 
-Zmienne pozwalają na zdefiniowanie wartości w jednym miejscu, a następnie na ich ponowne wykorzystanie w obrębie arkusza stylów, co pozwala na dokonywanie globalnych zmian poprzez zmianę jednej linijki kodu.
+Zmienne pozwalają na zdefiniowanie wartości w jednym miejscu, a następnie na ich ponowne wykorzystanie w obrębie arkusza stylów. Pozwala to na dokonywanie globalnych zmian, poprzez zmianę jednej linijki kodu.
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -28,10 +28,10 @@ h2 {
   </tr>
 </table>
 
-Domieszki (Mixins)
+Domieszki (mixins)
 ------
 
-Dziedziczenie przez wmieszanie pozwalaja na zawarcie wszystkich właściwości jednej klasy do innej klasy, przez załączenie nazwy klasy jako jednej z właściwości. Działa podobnie do zmiennych, przy czym dotyczy całych klas. Domieszki mogą się ponadto zachowywać jak funkcje i pobierać argumenty, jak na poniższym przykładzie.
+Dziedziczenie przez wmieszanie pozwala na zawarcie wszystkich właściwości jednej klasy w innej klasie, przez załączenie nazwy klasy jako jednej z właściwości. Działa podobnie do zmiennych, przy czym dotyczy całych klas. Domieszki mogą się ponadto zachowywać jak funkcje i pobierać argumenty, jak na poniższym przykładzie.
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -75,7 +75,7 @@ Dziedziczenie przez wmieszanie pozwalaja na zawarcie wszystkich właściwości j
 Zagnieżdżone reguły (nested rules)
 ------------
 
-Zamiast tworzyć długie nazwy selektorów w celu określenia dziedziczenia, w less można po prostu zagnieżdżać jedne selektory wewnątrz innych. Dzięki temu dziedziczenie jest bardziej przejrzyste, a arkusze stylów krótsze.
+Zamiast tworzyć długie nazwy selektorów, w celu określenia dziedziczenia, w LESS można po prostu zagnieżdżać jedne selektory wewnątrz innych. Dzięki temu dziedziczenie jest bardziej przejrzyste, a arkusze stylów krótsze.
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -120,7 +120,7 @@ Zamiast tworzyć długie nazwy selektorów w celu określenia dziedziczenia, w l
 Funkcje i operacje
 ----------------------
 
-Czy niektóre z elementów w twoim arkuszu stylów są proporcjonalne do innych? Operacje pozwalają na dodawanie, odejmowanie, dzielenie i mnożenie wartości właściwości oraz kolorów, dając możliwość tworzenia złożonych zależności między właściwościami. Operacje nie powinny jednak być wykonywane wewnątrz nawiasów, aby zapewnić zgodność z CSS. Funkcje rz ?????????????????????????????????????????
+Czy niektóre z elementów w twoim arkuszu stylów są proporcjonalne do innych? Operacje pozwalają na dodawanie, odejmowanie, dzielenie i mnożenie wartości właściwości oraz kolorów, dając możliwość tworzenia złożonych zależności między właściwościami. Operacje powinny jednak być wykonywane wewnątrz nawiasów, aby zapewnić zgodność z CSS. 
 
 <table class="code-example" cellpadding="0">
   <tr><td>

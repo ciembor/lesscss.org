@@ -3,6 +3,7 @@ GEM
   specs:
     builder (3.1.4)
     daemons (1.1.9)
+    eventmachine (1.0.0)
     eventmachine (1.0.0-x86-mingw32)
     rack (1.4.1)
     rdiscount (1.6.8)
@@ -16,6 +17,7 @@ GEM
       rdiscount
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
