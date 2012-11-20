@@ -529,7 +529,7 @@ content: @@var;
 
 <p><code>#header</code> będzie posiadał 5px border-radius.</p>
 
-<p>Możesz też używać parametrycznych domieszek, które nie przyjmują parametrów. Mogą być przydatne jeśli chcesz, aby zbiór reguł nie został dołączony do wyjściowego CSS, ale jego właściwości były załączone do innych zbiorów reguł:</p>
+<p>Możesz też używać parametrycznych domieszek, które nie przyjmują parametrów. Mogą być przydatne, jeśli chcesz, aby zbiór reguł nie został dołączony do wyjściowego CSS, ale jego właściwości były załączone do innych zbiorów reguł:</p>
 
 <pre><code>.wrap () {
   text-wrap: wrap;
@@ -674,7 +674,7 @@ pre { .wrap }
 </code></pre>
 
 <p>Pełna lista operatorów porównania używanych w strażnikach to: <strong><code>&gt; &gt;= = =&lt; &lt;</code></strong>. Dodatkowo słowo kluczowe <code>true</code>
-jest jedyną prawdziwą wartością, sprawiającą że te dwie domieszki są równoważne z:</p>
+jest jedyną prawdziwą wartością, sprawiającą, że te dwie domieszki są równoważne z:</p>
 
 <pre><code>.truth (@a) when (@a) { ... }
 .truth (@a) when (@a = true) { ... }
@@ -692,7 +692,7 @@ jest jedyną prawdziwą wartością, sprawiającą że te dwie domieszki są ró
 <pre><code>.mixin (@a) when (@a &gt; 10), (@a &lt; -10) { ... }
 </code></pre>
 
-<p>Zauważ, że możesz także porównywać argumenty między sobą, lub z innymi wartościami:</p>
+<p>Zauważ, że możesz także porównywać argumenty między sobą lub z innymi wartościami:</p>
 
 <pre><code>@media: mobile;
 
@@ -741,7 +741,7 @@ jest jedyną prawdziwą wartością, sprawiającą że te dwie domieszki są ró
 
 <h2>Zagnieżdżone reguły (nested rules)</h2>
 
-<p>LESS daje ci możliwość używania zagnieżdżeń zamiast kaskadowości, lub też w połączeniu z nią.
+<p>LESS daje ci możliwość używania zagnieżdżeń zamiast kaskadowości lub też w połączeniu z nią.
 Załóżmy, że mamy poniższy CSS:</p>
 
 <pre><code>#header { color: black; }
@@ -783,7 +783,7 @@ Załóżmy, że mamy poniższy CSS:</p>
 
 <p>W efekcie kod jest bardziej zwięzły i lepiej odzwierciedla strukturę <code>drzewa DOM</code>.</p>
 
-<p>Zauważ, że kombinator <code>&amp;</code>&mdash;jest używany, kiedy chcesz aby zagnieżdżony selektor został dołączony do selektora jego rodzica, zamiast zachowywać się jak potomek. Jest to szczególnie przydatne, kiedy używamy pseudo-klas takich jak <code>:hover</code> czy <code>:focus</code>.</p>
+<p>Zauważ, że kombinator <code>&amp;</code>&mdash;jest używany, kiedy chcesz, aby zagnieżdżony selektor został dołączony do selektora jego rodzica, zamiast zachowywać się jak potomek. Jest to szczególnie przydatne, kiedy używamy pseudo-klas takich jak <code>:hover</code> czy <code>:focus</code>.</p>
 
 <p>Na przykład:</p>
 
@@ -1001,7 +1001,7 @@ Rozszerzenie <code>.less</code> nie jest obowiązkowe, więc obie wersje są pop
 @import "lib";
 </code></pre>
 
-<p>Jeśli chcesz importować plik CSS i nie chcesz, żeby LESS go przetwarzał, wystarczy że użyjesz rozszeżenia <code>.css</code>:</p>
+<p>Jeśli chcesz importować plik CSS i nie chcesz, żeby LESS go przetwarzał, wystarczy, że użyjesz rozszerzenia <code>.css</code>:</p>
 
 <pre><code>@import "lib.css";
 </code></pre>
@@ -1056,9 +1056,9 @@ background-image: url("@{base-url}/images/bg.png");
 <h2>Wykonywanie kodu JavaScript</h2>
 
 <p>Wyrażenia JavaScript mogą być wywoływane tak jak wartości wewnątrz plików .less. Zalecamy ostrożność podczas korzystania z tej możliwości,
-ponieważ taki kod trudniejszy w rozwijaniu i mniej przenośny. Jeżeli to możliwe, spróbuj pomyśleć o funkcji, która mogłaby być użyta
-w celu uzyskania tego efektu i zapytaj o nią w na GitHubie. Mamy w planach zezwolenie na rozszerzanie domyślnego zbioru funkcji.
-Jednak jeśli ciągle chcesz używać JavaScriptu wewnątrz .less, możesz to zrobić otaczając wyrażenie grawisami (back-ticks):</p>
+ponieważ taki kod jest trudniejszy w rozwijaniu i mniej przenośny. Jeżeli to możliwe, spróbuj pomyśleć o funkcji, która mogłaby być użyta
+w celu uzyskania tego efektu i zapytaj o nią na GitHubie. Mamy w planach zezwolenie na rozszerzanie domyślnego zbioru funkcji.
+Jednak jeśli ciągle chcesz użyć JavaScriptu wewnątrz .less, możesz to zrobić otaczając wyrażenie grawisami (back-ticks):</p>
 
 <pre><code>@var: `"cześć".toUpperCase() + '!'`;
 </code></pre>
@@ -1097,6 +1097,7 @@ Jednak jeśli ciągle chcesz używać JavaScriptu wewnątrz .less, możesz to zr
   <div class="content">
     <h1>W innych językach</h1>
     <ul>
+        <li>Angielski: <a href="http://lesscss.org">http://lesscss.org</a></li>
         <li>Rosyjski: <a href="http://lesscss.ru">http://lesscss.ru</a></li>
         <li>Chiński: <a href="http://lesscss.net">http://lesscss.net</a></li>
         <li>Japoński: <a href="http://less-ja.studiomohawk.com/">http://less-ja.studiomohawk.com/</a></li>
